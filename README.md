@@ -9,6 +9,12 @@ An object-oriented modern Fortran library to integrate functions using adaptive 
 * Adaptive 12-point Legendre-Gauss
 * Adaptive 14-point Legendre-Gauss
 
+The library supports both single integration:
+    $$\int_{x_l}^{x_u}  f(x) dx$$
+
+and double integration:
+    $$\int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y) dx dy$$
+
 The core code is based on the SLATEC routine [DGAUS8](http://www.netlib.org/slatec/src/dgaus8.f) (which is the source of the 8-point routine). Coefficients for the others were obtained from [here](http://processingjs.nihongoresources.com/bezierinfo/legendre-gauss-values.php).
 
 ### License

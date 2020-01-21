@@ -1,4 +1,4 @@
-Adaptive Gaussian Quadrature with Modern Fortran
+**quadrature-fortran** : Adaptive Gaussian Quadrature with Modern Fortran
 
 ### Brief description
 
@@ -11,7 +11,7 @@ An object-oriented modern Fortran library to integrate functions using adaptive 
 
 The library supports both single integration:
 ```math
-\int_{x_l}^{x_u}  f(x) dx
+\int_{x_l}^{x_u} f(x) dx
 ```
 
 and double integration:

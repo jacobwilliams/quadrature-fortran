@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Directories
+/doc
+/archive
+/bin
+/lib

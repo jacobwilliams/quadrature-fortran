@@ -8,7 +8,7 @@
     module quadrature_module
 
     use, intrinsic :: iso_fortran_env,  only: wp => real64  ! double precision
-    !use, intrinsic :: iso_fortran_env,  only: wp => real128 ! quad precision
+  !  use, intrinsic :: iso_fortran_env,  only: wp => real128 ! quad precision
 
     implicit none
 
@@ -43,7 +43,11 @@
                                                                    quad_gauss_12,&
                                                                    quad_gauss_14 ]
 
-    type,public :: integration_class
+    type,abstract,private :: integration_class
+        private
+    end type integration_class
+
+    type,extends(integration_class),public :: integration_class_1d
         !! single integration class: for 1d integration of `f(x)`
 
         private
@@ -55,6 +59,9 @@
         real(wp) :: b      = zero      !! upper limit of integration (may be less than a)
         real(wp) :: tol    = zero      !! the requested relative error tolerance.
 
+        real(wp) :: val = zero   !! the value of `x`. Only used for multiple
+                                 !! integration to pass to the inner integrals
+
         contains
 
         private
@@ -62,58 +69,156 @@
         procedure :: dgauss_generic  !! core integration routine. refactored from
                                      !! SLATEC with selectable quadrature method
         procedure,public :: initialize => initialize_integration_class !! to set up the class
-        procedure,public :: integrate  => single_integration !! to integrate the function `fun`
+        procedure,public :: integrate  => integrate_1d !! to integrate the function `fun`
 
-    end type integration_class
+    end type integration_class_1d
 
-    type,public :: double_integration_class
+    type,extends(integration_class),public :: integration_class_2d
         !! double integration class: for 2d integration of `f(x,y)`
-        !!
-        !! This just contains two instances of an `integration_class`.
-
         private
-
-        procedure(func_2d),pointer :: fxy  => null()   !! function `f(x,y)` to be integrated
-
-        type(integration_class) :: outer     !! for the 2d outer integration
-        real(wp)                :: y = zero  !! the value of `y` from the outer integral
-        type(integration_class) :: inner     !! for the 2d inner integration
-
+        procedure(func_2d),pointer :: fxy => null()   !! function `f(x,y)` to be integrated
+        type(integration_class_1d) :: iy     !! for the dy integration
+        type(integration_class_1d) :: ix     !! for the dx integration
         contains
-
         private
+        procedure,public :: initialize => initialize_integration_class_2d !! to set up the class
+        procedure,public :: integrate  => integrate_2d !! to integrate the function `fxy`
+    end type integration_class_2d
 
-        procedure,public :: initialize => initialize_double_integration_class !! to set up the class
-        procedure,public :: integrate  => double_integration !! to integrate the function `fxy`
+    type,extends(integration_class),public :: integration_class_3d
+        !! double integration class: for 3d integration of `f(x,y,z)`
+        private
+        procedure(func_3d),pointer :: fxyz => null()   !! function `f(x,y,z)` to be integrated
+        type(integration_class_1d) :: iz     !! for the dz integration
+        type(integration_class_1d) :: iy     !! for the dy integration
+        type(integration_class_1d) :: ix     !! for the dx integration
+        contains
+        private
+        procedure,public :: initialize => initialize_integration_class_3d !! to set up the class
+        procedure,public :: integrate  => integrate_3d !! to integrate the function `fxyz`
+    end type integration_class_3d
 
-    end type double_integration_class
+    type,extends(integration_class),public :: integration_class_4d
+        !! double integration class: for 4d integration of `f(x,y,z,q)`
+        private
+        procedure(func_4d),pointer :: fxyzq => null()   !! function `f(x,y,z,q)` to be integrated
+        type(integration_class_1d) :: iq     !! for the dq integration
+        type(integration_class_1d) :: iz     !! for the dz integration
+        type(integration_class_1d) :: iy     !! for the dy integration
+        type(integration_class_1d) :: ix     !! for the dx integration
+        contains
+        private
+        procedure,public :: initialize => initialize_integration_class_4d !! to set up the class
+        procedure,public :: integrate  => integrate_4d !! to integrate the function `fxyzq`
+    end type integration_class_4d
+
+    type,extends(integration_class),public :: integration_class_5d
+        !! double integration class: for 5d integration of `f(x,y,z,q,r)`
+        private
+        procedure(func_5d),pointer :: fxyzqr => null()   !! function `f(x,y,z,q,r)` to be integrated
+        type(integration_class_1d) :: ir     !! for the dr integration
+        type(integration_class_1d) :: iq     !! for the dq integration
+        type(integration_class_1d) :: iz     !! for the dz integration
+        type(integration_class_1d) :: iy     !! for the dy integration
+        type(integration_class_1d) :: ix     !! for the dx integration
+        contains
+        private
+        procedure,public :: initialize => initialize_integration_class_5d !! to set up the class
+        procedure,public :: integrate  => integrate_5d !! to integrate the function `fxyzqr`
+    end type integration_class_5d
+
+    type,extends(integration_class),public :: integration_class_6d
+        !! double integration class: for 6d integration of `f(x,y,z,q,r,s)`
+        private
+        procedure(func_6d),pointer :: fxyzqrs => null()   !! function `f(x,y,z,q,r,s)` to be integrated
+        type(integration_class_1d) :: is     !! for the ds integration
+        type(integration_class_1d) :: ir     !! for the dr integration
+        type(integration_class_1d) :: iq     !! for the dq integration
+        type(integration_class_1d) :: iz     !! for the dz integration
+        type(integration_class_1d) :: iy     !! for the dy integration
+        type(integration_class_1d) :: ix     !! for the dx integration
+        contains
+        private
+        procedure,public :: initialize => initialize_integration_class_6d !! to set up the class
+        procedure,public :: integrate  => integrate_6d !! to integrate the function `fxyzqrs`
+    end type integration_class_6d
 
     abstract interface
 
         function func_1d(me,x) result(f)
             !! 1d user function f(x)
-            import :: wp,integration_class
+            import :: wp,integration_class_1d
             implicit none
-            class(integration_class),intent(inout)  :: me
-            real(wp), intent(in)                    :: x
-            real(wp)                                :: f
+            class(integration_class_1d),intent(inout) :: me
+            real(wp), intent(in)                      :: x
+            real(wp)                                  :: f
         end function func_1d
 
         function func_2d(me,x,y) result(f)
             !! 2d user function f(x,y)
-            import :: wp,double_integration_class
+            import :: wp,integration_class_2d
             implicit none
-            class(double_integration_class),intent(inout) :: me
-            real(wp), intent(in)                          :: x
-            real(wp), intent(in)                          :: y
-            real(wp)                                      :: f
+            class(integration_class_2d),intent(inout) :: me
+            real(wp), intent(in)                      :: x
+            real(wp), intent(in)                      :: y
+            real(wp)                                  :: f
         end function func_2d
+
+        function func_3d(me,x,y,z) result(f)
+            !! 3d user function f(x,y,z)
+            import :: wp,integration_class_3d
+            implicit none
+            class(integration_class_3d),intent(inout) :: me
+            real(wp), intent(in)                      :: x
+            real(wp), intent(in)                      :: y
+            real(wp), intent(in)                      :: z
+            real(wp)                                  :: f
+        end function func_3d
+
+        function func_4d(me,x,y,z,q) result(f)
+            !! 4d user function f(x,y,z,q)
+            import :: wp,integration_class_4d
+            implicit none
+            class(integration_class_4d),intent(inout) :: me
+            real(wp), intent(in)                      :: x
+            real(wp), intent(in)                      :: y
+            real(wp), intent(in)                      :: z
+            real(wp), intent(in)                      :: q
+            real(wp)                                  :: f
+        end function func_4d
+
+        function func_5d(me,x,y,z,q,r) result(f)
+            !! 5d user function f(x,y,z,q,r)
+            import :: wp,integration_class_5d
+            implicit none
+            class(integration_class_5d),intent(inout) :: me
+            real(wp), intent(in)                      :: x
+            real(wp), intent(in)                      :: y
+            real(wp), intent(in)                      :: z
+            real(wp), intent(in)                      :: q
+            real(wp), intent(in)                      :: r
+            real(wp)                                  :: f
+        end function func_5d
+
+        function func_6d(me,x,y,z,q,r,s) result(f)
+            !! 6d user function f(x,y,z,q,r,s)
+            import :: wp,integration_class_6d
+            implicit none
+            class(integration_class_6d),intent(inout) :: me
+            real(wp), intent(in)                      :: x
+            real(wp), intent(in)                      :: y
+            real(wp), intent(in)                      :: z
+            real(wp), intent(in)                      :: q
+            real(wp), intent(in)                      :: r
+            real(wp), intent(in)                      :: s
+            real(wp)                                  :: f
+        end function func_6d
 
         function gauss_func(me, x, h) result(f)
             !! guass quadrature formula
-            import :: wp,integration_class
+            import :: wp,integration_class_1d
             implicit none
-            class(integration_class),intent(inout)  :: me
+            class(integration_class_1d),intent(inout)  :: me
             real(wp), intent(in)                    :: x
             real(wp), intent(in)                    :: h
             real(wp)                                :: f
@@ -129,25 +234,26 @@
 !  Initialize the 1D integration class.
 !  Must be called before integration is performed.
 
-    subroutine initialize_integration_class(me,fx,xl,xu,tolx,methodx)
+    subroutine initialize_integration_class(me,fx,&
+                                            xl,xu,tolx,methodx)
 
     implicit none
 
-    class(integration_class),intent(inout) :: me
+    class(integration_class_1d),intent(inout) :: me
     procedure(func_1d)    :: fx       !! 1d function: f(x)
     real(wp),intent(in)   :: xl       !! x integration lower bound
     real(wp),intent(in)   :: xu       !! x integration upper bound
     real(wp),intent(in)   :: tolx     !! error tolerance for dx integration
     integer,intent(in)    :: methodx  !! quadrature method to use for x
 
-    !!select quadrature rule
+    ! select quadrature rule
     select case (methodx)
     case(6);  me%g => g6
     case(8);  me%g => g8
     case(10); me%g => g10
     case(12); me%g => g12
     case(14); me%g => g14
-   case default
+    case default
         error stop 'invalid quadrature method in initialize_integration_class'
     end select
 
@@ -163,15 +269,15 @@
 !>
 !  Initialize the 2D integration class.
 !  Must be called before integration is performed.
-!
-!### Notes
-!  * The double integration is handled internally by 1d function wrappers.
 
-    subroutine initialize_double_integration_class(me,fxy,xl,xu,yl,yu,tolx,toly,methodx,methody)
+    subroutine initialize_integration_class_2d(me,fxy,&
+                                               xl,xu,yl,yu,&
+                                               tolx,toly,&
+                                               methodx,methody)
 
     implicit none
 
-    class(double_integration_class),intent(inout) :: me
+    class(integration_class_2d),intent(inout) :: me
     procedure(func_2d)     :: fxy      !! 2d function: f(x,y)
     real(wp),intent(in)    :: xl       !! x integration lower bound
     real(wp),intent(in)    :: xu       !! x integration upper bound
@@ -179,29 +285,215 @@
     real(wp),intent(in)    :: yu       !! y integration upper bound
     real(wp),intent(in)    :: tolx     !! error tolerance for dx integration
     real(wp),intent(in)    :: toly     !! error tolerance for dy integration
-    integer,intent(in)     :: methodx  !! quadrature method to use for x [default is quad_gauss_8]
-    integer,intent(in)     :: methody  !! quadrature method to use for y [default is quad_gauss_8]
+    integer,intent(in)     :: methodx  !! quadrature method to use for x
+    integer,intent(in)     :: methody  !! quadrature method to use for y
 
-    procedure(func_1d),pointer :: dummy => null() !! these will be set in [[double_integration]]
+    procedure(func_1d),pointer :: dummy => null() !! these will be set in [[integrate_2d]]
 
     me%fxy => fxy  !the user-defined f(x,y) function to integrate
 
     ! individual integrators:
-    call me%inner%initialize(dummy,xl,xu,tolx,methodx)
-    call me%outer%initialize(dummy,yl,yu,toly,methody)
+    call me%ix%initialize(dummy,xl,xu,tolx,methodx)
+    call me%iy%initialize(dummy,yl,yu,toly,methody)
 
-    end subroutine initialize_double_integration_class
+    end subroutine initialize_integration_class_2d
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Initialize the 3D integration class.
+!  Must be called before integration is performed.
+
+    subroutine initialize_integration_class_3d(me,fxyz,&
+                                               xl,xu,yl,yu,zl,zu,&
+                                               tolx,toly,tolz,&
+                                               methodx,methody,methodz)
+
+    implicit none
+
+    class(integration_class_3d),intent(inout) :: me
+    procedure(func_3d)     :: fxyz     !! 3d function: f(x,y,z)
+    real(wp),intent(in)    :: xl       !! x integration lower bound
+    real(wp),intent(in)    :: xu       !! x integration upper bound
+    real(wp),intent(in)    :: yl       !! y integration lower bound
+    real(wp),intent(in)    :: yu       !! y integration upper bound
+    real(wp),intent(in)    :: zl       !! z integration lower bound
+    real(wp),intent(in)    :: zu       !! z integration upper bound
+    real(wp),intent(in)    :: tolx     !! error tolerance for dx integration
+    real(wp),intent(in)    :: toly     !! error tolerance for dy integration
+    real(wp),intent(in)    :: tolz     !! error tolerance for dz integration
+    integer,intent(in)     :: methodx  !! quadrature method to use for x
+    integer,intent(in)     :: methody  !! quadrature method to use for y
+    integer,intent(in)     :: methodz  !! quadrature method to use for z
+
+    procedure(func_1d),pointer :: dummy => null() !! these will be set in [[integrate_3d]]
+
+    me%fxyz => fxyz  !the user-defined f(x,y,z) function to integrate
+
+    ! individual integrators:
+    call me%ix%initialize(dummy,xl,xu,tolx,methodx)
+    call me%iy%initialize(dummy,yl,yu,toly,methody)
+    call me%iz%initialize(dummy,zl,zu,tolz,methodz)
+
+    end subroutine initialize_integration_class_3d
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Initialize the 4D integration class.
+!  Must be called before integration is performed.
+
+    subroutine initialize_integration_class_4d(me,fxyzq,&
+                                               xl,xu,yl,yu,zl,zu,ql,qu,&
+                                               tolx,toly,tolz,tolq,&
+                                               methodx,methody,methodz,methodq)
+
+    implicit none
+
+    class(integration_class_4d),intent(inout) :: me
+    procedure(func_4d)     :: fxyzq    !! 4d function: f(x,y,z,q)
+    real(wp),intent(in)    :: xl       !! x integration lower bound
+    real(wp),intent(in)    :: xu       !! x integration upper bound
+    real(wp),intent(in)    :: yl       !! y integration lower bound
+    real(wp),intent(in)    :: yu       !! y integration upper bound
+    real(wp),intent(in)    :: zl       !! z integration lower bound
+    real(wp),intent(in)    :: zu       !! z integration upper bound
+    real(wp),intent(in)    :: ql       !! q integration lower bound
+    real(wp),intent(in)    :: qu       !! q integration upper bound
+    real(wp),intent(in)    :: tolx     !! error tolerance for dx integration
+    real(wp),intent(in)    :: toly     !! error tolerance for dy integration
+    real(wp),intent(in)    :: tolz     !! error tolerance for dz integration
+    real(wp),intent(in)    :: tolq     !! error tolerance for dq integration
+    integer,intent(in)     :: methodx  !! quadrature method to use for x
+    integer,intent(in)     :: methody  !! quadrature method to use for y
+    integer,intent(in)     :: methodz  !! quadrature method to use for z
+    integer,intent(in)     :: methodq  !! quadrature method to use for q
+
+    procedure(func_1d),pointer :: dummy => null() !! these will be set in [[integrate_3d]]
+
+    me%fxyzq => fxyzq  !the user-defined f(x,y,z,q) function to integrate
+
+    ! individual integrators:
+    call me%ix%initialize(dummy,xl,xu,tolx,methodx)
+    call me%iy%initialize(dummy,yl,yu,toly,methody)
+    call me%iz%initialize(dummy,zl,zu,tolz,methodz)
+    call me%iq%initialize(dummy,ql,qu,tolq,methodq)
+
+    end subroutine initialize_integration_class_4d
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Initialize the 5D integration class.
+!  Must be called before integration is performed.
+
+    subroutine initialize_integration_class_5d(me,fxyzqr,&
+                                               xl,xu,yl,yu,zl,zu,ql,qu,rl,ru,&
+                                               tolx,toly,tolz,tolq,tolr,&
+                                               methodx,methody,methodz,methodq,methodr)
+
+    implicit none
+
+    class(integration_class_5d),intent(inout) :: me
+    procedure(func_5d)     :: fxyzqr   !! 5d function: f(x,y,z,q,r)
+    real(wp),intent(in)    :: xl       !! x integration lower bound
+    real(wp),intent(in)    :: xu       !! x integration upper bound
+    real(wp),intent(in)    :: yl       !! y integration lower bound
+    real(wp),intent(in)    :: yu       !! y integration upper bound
+    real(wp),intent(in)    :: zl       !! z integration lower bound
+    real(wp),intent(in)    :: zu       !! z integration upper bound
+    real(wp),intent(in)    :: ql       !! q integration lower bound
+    real(wp),intent(in)    :: qu       !! q integration upper bound
+    real(wp),intent(in)    :: rl       !! r integration lower bound
+    real(wp),intent(in)    :: ru       !! r integration upper bound
+    real(wp),intent(in)    :: tolx     !! error tolerance for dx integration
+    real(wp),intent(in)    :: toly     !! error tolerance for dy integration
+    real(wp),intent(in)    :: tolz     !! error tolerance for dz integration
+    real(wp),intent(in)    :: tolq     !! error tolerance for dq integration
+    real(wp),intent(in)    :: tolr     !! error tolerance for dr integration
+    integer,intent(in)     :: methodx  !! quadrature method to use for x
+    integer,intent(in)     :: methody  !! quadrature method to use for y
+    integer,intent(in)     :: methodz  !! quadrature method to use for z
+    integer,intent(in)     :: methodq  !! quadrature method to use for q
+    integer,intent(in)     :: methodr  !! quadrature method to use for r
+
+    procedure(func_1d),pointer :: dummy => null() !! these will be set in [[integrate_3d]]
+
+    me%fxyzqr => fxyzqr  !the user-defined f(x,y,z,q,r) function to integrate
+
+    ! individual integrators:
+    call me%ix%initialize(dummy,xl,xu,tolx,methodx)
+    call me%iy%initialize(dummy,yl,yu,toly,methody)
+    call me%iz%initialize(dummy,zl,zu,tolz,methodz)
+    call me%iq%initialize(dummy,ql,qu,tolq,methodq)
+    call me%ir%initialize(dummy,rl,ru,tolr,methodr)
+
+    end subroutine initialize_integration_class_5d
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Initialize the 6D integration class.
+!  Must be called before integration is performed.
+
+    subroutine initialize_integration_class_6d(me,fxyzqrs,&
+                                               xl,xu,yl,yu,zl,zu,ql,qu,rl,ru,sl,su,&
+                                               tolx,toly,tolz,tolq,tolr,tols,&
+                                               methodx,methody,methodz,methodq,methodr,methods)
+
+    implicit none
+
+    class(integration_class_6d),intent(inout) :: me
+    procedure(func_6d)     :: fxyzqrs  !! 6d function: f(x,y,z,q,r,s)
+    real(wp),intent(in)    :: xl       !! x integration lower bound
+    real(wp),intent(in)    :: xu       !! x integration upper bound
+    real(wp),intent(in)    :: yl       !! y integration lower bound
+    real(wp),intent(in)    :: yu       !! y integration upper bound
+    real(wp),intent(in)    :: zl       !! z integration lower bound
+    real(wp),intent(in)    :: zu       !! z integration upper bound
+    real(wp),intent(in)    :: ql       !! q integration lower bound
+    real(wp),intent(in)    :: qu       !! q integration upper bound
+    real(wp),intent(in)    :: rl       !! r integration lower bound
+    real(wp),intent(in)    :: ru       !! r integration upper bound
+    real(wp),intent(in)    :: sl       !! s integration lower bound
+    real(wp),intent(in)    :: su       !! s integration upper bound
+    real(wp),intent(in)    :: tolx     !! error tolerance for dx integration
+    real(wp),intent(in)    :: toly     !! error tolerance for dy integration
+    real(wp),intent(in)    :: tolz     !! error tolerance for dz integration
+    real(wp),intent(in)    :: tolq     !! error tolerance for dq integration
+    real(wp),intent(in)    :: tolr     !! error tolerance for dr integration
+    real(wp),intent(in)    :: tols     !! error tolerance for ds integration
+    integer,intent(in)     :: methodx  !! quadrature method to use for x
+    integer,intent(in)     :: methody  !! quadrature method to use for y
+    integer,intent(in)     :: methodz  !! quadrature method to use for z
+    integer,intent(in)     :: methodq  !! quadrature method to use for q
+    integer,intent(in)     :: methodr  !! quadrature method to use for r
+    integer,intent(in)     :: methods  !! quadrature method to use for s
+
+    procedure(func_1d),pointer :: dummy => null() !! these will be set in [[integrate_3d]]
+
+    me%fxyzqrs => fxyzqrs  !the user-defined f(x,y,z,q,r,s) function to integrate
+
+    ! individual integrators:
+    call me%ix%initialize(dummy,xl,xu,tolx,methodx)
+    call me%iy%initialize(dummy,yl,yu,toly,methody)
+    call me%iz%initialize(dummy,zl,zu,tolz,methodz)
+    call me%iq%initialize(dummy,ql,qu,tolq,methodq)
+    call me%ir%initialize(dummy,rl,ru,tolr,methodr)
+    call me%is%initialize(dummy,sl,su,tols,methods)
+
+    end subroutine initialize_integration_class_6d
 !********************************************************************************
 
 !********************************************************************************
 !>
 !   Perform the 1D integration.
 
-    subroutine single_integration (me, ans, ierr, err)
+    subroutine integrate_1d (me, ans, ierr, err)
 
     implicit none
 
-    class(integration_class),intent(inout)  :: me
+    class(integration_class_1d),intent(inout)  :: me
     real(wp),intent(out)  :: ans
     integer,intent(out)   :: ierr
     real(wp),intent(out)  :: err
@@ -209,69 +501,297 @@
     !call the low-level routine:
     call me%dgauss_generic(me%a, me%b, me%tol, ans, ierr, err)
 
-    end subroutine single_integration
+    end subroutine integrate_1d
 !********************************************************************************
 
 !********************************************************************************
 !>
 !   Perform the 2D integration.
 
-    subroutine double_integration (me, ans, ierr, err)
+    subroutine integrate_2d (me, ans, ierr, err)
 
     implicit none
 
-    class(double_integration_class),intent(inout)  :: me
+    class(integration_class_2d),intent(inout)  :: me
     real(wp),intent(out)  :: ans
     integer,intent(out)   :: ierr
     real(wp),intent(out)  :: err
 
     ! set the two functions to the contained wrappers:
-    me%outer%fun => f_of_y
-    me%inner%fun => f_of_x
+    me%iy%fun => f_of_y
+    me%ix%fun => f_of_x
 
     ! call the low-level routine:
-    call me%outer%integrate(ans, ierr, err)
+    call me%iy%integrate(ans, ierr, err)
 
     contains
 
-        function f_of_x(inner,x) result(f)
-        !! Wrapper used for double integration
-        !! This is the inner function that is integrated w.r.t. x
-        !! It calls the 2d function f(x,y) for a given value of y
-        !! [y is set in the f_of_y function]
-
-        implicit none
-
-        class(integration_class),intent(inout) :: inner
-        real(wp), intent(in) :: x
-        real(wp)             :: f
-
-        f = me%fxy(x,me%y)
-
+        function f_of_x(ix,x) result(f)
+            class(integration_class_1d),intent(inout) :: ix
+            real(wp), intent(in) :: x
+            real(wp)             :: f
+            f = me%fxy(x,me%iy%val)
         end function f_of_x
 
-        function f_of_y(outer,y) result(f)
-        !! Wrapper used for double integration
-        !! This is the outer function that is integrated w.r.t. y
-        !! It integrates the f_of_x function.
-
-        implicit none
-
-        class(integration_class),intent(inout)  :: outer
-        real(wp), intent(in) :: y
-        real(wp)             :: f
-
-        integer :: ierr
-        real(wp) :: err
-
-        me%y = y  !set y value
-
-        !integrate the inner function (wrt x) for this value of y:
-        call me%inner%integrate(f, ierr, err)
-
+        function f_of_y(iy,y) result(f)
+            class(integration_class_1d),intent(inout)  :: iy
+            real(wp), intent(in) :: y
+            real(wp)             :: f
+            iy%val = y  !set y value
+            call me%ix%integrate(f, ierr, err)
         end function f_of_y
 
-    end subroutine double_integration
+    end subroutine integrate_2d
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Perform the 3D integration.
+
+    subroutine integrate_3d (me, ans, ierr, err)
+
+    implicit none
+
+    class(integration_class_3d),intent(inout)  :: me
+    real(wp),intent(out)  :: ans
+    integer,intent(out)   :: ierr
+    real(wp),intent(out)  :: err
+
+    ! set the functions to the contained wrappers:
+    me%iz%fun => f_of_z
+    me%iy%fun => f_of_y
+    me%ix%fun => f_of_x
+
+    ! call the low-level routine:
+    call me%iz%integrate(ans, ierr, err)
+
+    contains
+
+        function f_of_x(ix,x) result(f)
+            class(integration_class_1d),intent(inout) :: ix
+            real(wp), intent(in) :: x
+            real(wp)             :: f
+            f = me%fxyz(x,me%iy%val,me%iz%val)
+        end function f_of_x
+
+        function f_of_y(iy,y) result(f)
+            class(integration_class_1d),intent(inout)  :: iy
+            real(wp), intent(in) :: y
+            real(wp)             :: f
+            iy%val = y
+            call me%ix%integrate(f, ierr, err)
+        end function f_of_y
+
+        function f_of_z(iz,z) result(f)
+            class(integration_class_1d),intent(inout)  :: iz
+            real(wp), intent(in) :: z
+            real(wp)             :: f
+            iz%val = z
+            call me%iy%integrate(f, ierr, err)
+        end function f_of_z
+
+    end subroutine integrate_3d
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Perform the 4D integration.
+
+    subroutine integrate_4d (me, ans, ierr, err)
+
+    implicit none
+
+    class(integration_class_4d),intent(inout)  :: me
+    real(wp),intent(out)  :: ans
+    integer,intent(out)   :: ierr
+    real(wp),intent(out)  :: err
+
+    ! set the functions to the contained wrappers:
+    me%iq%fun => f_of_q
+    me%iz%fun => f_of_z
+    me%iy%fun => f_of_y
+    me%ix%fun => f_of_x
+
+    ! call the low-level routine:
+    call me%iq%integrate(ans, ierr, err)
+
+    contains
+
+        function f_of_x(ix,x) result(f)
+            class(integration_class_1d),intent(inout) :: ix
+            real(wp), intent(in) :: x
+            real(wp)             :: f
+            f = me%fxyzq(x,me%iy%val,me%iz%val,me%iq%val)
+        end function f_of_x
+
+        function f_of_y(iy,y) result(f)
+            class(integration_class_1d),intent(inout)  :: iy
+            real(wp), intent(in) :: y
+            real(wp)             :: f
+            iy%val = y
+            call me%ix%integrate(f, ierr, err)
+        end function f_of_y
+
+        function f_of_z(iz,z) result(f)
+            class(integration_class_1d),intent(inout)  :: iz
+            real(wp), intent(in) :: z
+            real(wp)             :: f
+            iz%val = z
+            call me%iy%integrate(f, ierr, err)
+        end function f_of_z
+
+        function f_of_q(iq,q) result(f)
+            class(integration_class_1d),intent(inout)  :: iq
+            real(wp), intent(in) :: q
+            real(wp)             :: f
+            iq%val = q
+            call me%iz%integrate(f, ierr, err)
+        end function f_of_q
+
+    end subroutine integrate_4d
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Perform the 5D integration.
+
+    subroutine integrate_5d (me, ans, ierr, err)
+
+    implicit none
+
+    class(integration_class_5d),intent(inout)  :: me
+    real(wp),intent(out)  :: ans
+    integer,intent(out)   :: ierr
+    real(wp),intent(out)  :: err
+
+    ! set the functions to the contained wrappers:
+    me%ir%fun => f_of_r
+    me%iq%fun => f_of_q
+    me%iz%fun => f_of_z
+    me%iy%fun => f_of_y
+    me%ix%fun => f_of_x
+
+    ! call the low-level routine:
+    call me%ir%integrate(ans, ierr, err)
+
+    contains
+
+        function f_of_x(ix,x) result(f)
+            class(integration_class_1d),intent(inout) :: ix
+            real(wp), intent(in) :: x
+            real(wp)             :: f
+            f = me%fxyzqr(x,me%iy%val,me%iz%val,me%iq%val,me%ir%val)
+        end function f_of_x
+
+        function f_of_y(iy,y) result(f)
+            class(integration_class_1d),intent(inout)  :: iy
+            real(wp), intent(in) :: y
+            real(wp)             :: f
+            iy%val = y
+            call me%ix%integrate(f, ierr, err)
+        end function f_of_y
+
+        function f_of_z(iz,z) result(f)
+            class(integration_class_1d),intent(inout)  :: iz
+            real(wp), intent(in) :: z
+            real(wp)             :: f
+            iz%val = z
+            call me%iy%integrate(f, ierr, err)
+        end function f_of_z
+
+        function f_of_q(iq,q) result(f)
+            class(integration_class_1d),intent(inout)  :: iq
+            real(wp), intent(in) :: q
+            real(wp)             :: f
+            iq%val = q
+            call me%iz%integrate(f, ierr, err)
+        end function f_of_q
+
+        function f_of_r(ir,r) result(f)
+            class(integration_class_1d),intent(inout)  :: ir
+            real(wp), intent(in) :: r
+            real(wp)             :: f
+            ir%val = r
+            call me%iq%integrate(f, ierr, err)
+        end function f_of_r
+
+    end subroutine integrate_5d
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Perform the 6D integration.
+
+    subroutine integrate_6d (me, ans, ierr, err)
+
+    implicit none
+
+    class(integration_class_6d),intent(inout)  :: me
+    real(wp),intent(out)  :: ans
+    integer,intent(out)   :: ierr
+    real(wp),intent(out)  :: err
+
+    ! set the functions to the contained wrappers:
+    me%is%fun => f_of_s
+    me%ir%fun => f_of_r
+    me%iq%fun => f_of_q
+    me%iz%fun => f_of_z
+    me%iy%fun => f_of_y
+    me%ix%fun => f_of_x
+
+    ! call the low-level routine:
+    call me%is%integrate(ans, ierr, err)
+
+    contains
+
+        function f_of_x(ix,x) result(f)
+            class(integration_class_1d),intent(inout) :: ix
+            real(wp), intent(in) :: x
+            real(wp)             :: f
+            f = me%fxyzqrs(x,me%iy%val,me%iz%val,me%iq%val,me%ir%val,me%is%val)
+        end function f_of_x
+
+        function f_of_y(iy,y) result(f)
+            class(integration_class_1d),intent(inout)  :: iy
+            real(wp), intent(in) :: y
+            real(wp)             :: f
+            iy%val = y
+            call me%ix%integrate(f, ierr, err)
+        end function f_of_y
+
+        function f_of_z(iz,z) result(f)
+            class(integration_class_1d),intent(inout)  :: iz
+            real(wp), intent(in) :: z
+            real(wp)             :: f
+            iz%val = z
+            call me%iy%integrate(f, ierr, err)
+        end function f_of_z
+
+        function f_of_q(iq,q) result(f)
+            class(integration_class_1d),intent(inout)  :: iq
+            real(wp), intent(in) :: q
+            real(wp)             :: f
+            iq%val = q
+            call me%iz%integrate(f, ierr, err)
+        end function f_of_q
+
+        function f_of_r(ir,r) result(f)
+            class(integration_class_1d),intent(inout)  :: ir
+            real(wp), intent(in) :: r
+            real(wp)             :: f
+            ir%val = r
+            call me%iq%integrate(f, ierr, err)
+        end function f_of_r
+
+        function f_of_s(is,s) result(f)
+            class(integration_class_1d),intent(inout)  :: is
+            real(wp), intent(in) :: s
+            real(wp)             :: f
+            is%val = s
+            call me%ir%integrate(f, ierr, err)
+        end function f_of_s
+
+    end subroutine integrate_6d
 !********************************************************************************
 
 !********************************************************************************
@@ -298,7 +818,7 @@
 
     implicit none
 
-    class(integration_class),intent(inout)  :: me
+    class(integration_class_1d),intent(inout)  :: me
     real(wp),intent(in)   :: lb         !! lower bound of the integration
     real(wp),intent(in)   :: ub         !! upper bound of the integration
     real(wp),intent(in)   :: error_tol  !! is a requested pseudorelative error tolerance.  normally
@@ -458,7 +978,7 @@
 
     implicit none
 
-    class(integration_class),intent(inout)  :: me
+    class(integration_class_1d),intent(inout)  :: me
     real(wp), intent(in)                    :: x
     real(wp), intent(in)                    :: h
     real(wp)                                :: f
@@ -527,7 +1047,7 @@
 
     implicit none
 
-    class(integration_class),intent(inout)  :: me
+    class(integration_class_1d),intent(inout)  :: me
     real(wp), intent(in) :: x
     real(wp), intent(in) :: h
     real(wp)             :: f
@@ -604,7 +1124,7 @@
 
     implicit none
 
-    class(integration_class),intent(inout)  :: me
+    class(integration_class_1d),intent(inout)  :: me
     real(wp), intent(in) :: x
     real(wp), intent(in) :: h
     real(wp)             :: f
@@ -695,7 +1215,7 @@
 
     implicit none
 
-    class(integration_class),intent(inout)  :: me
+    class(integration_class_1d),intent(inout)  :: me
     real(wp), intent(in) :: x
     real(wp), intent(in) :: h
     real(wp)             :: f
@@ -798,7 +1318,7 @@
 
     implicit none
 
-    class(integration_class),intent(inout)  :: me
+    class(integration_class_1d),intent(inout)  :: me
     real(wp), intent(in) :: x
     real(wp), intent(in) :: h
     real(wp)             :: f

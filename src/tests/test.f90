@@ -17,7 +17,7 @@
     real(wp),parameter :: tol       = 1.0e-12_wp  !! error tolerance
     !real(wp),parameter :: tol       = 100*epsilon(one)
 
-    type,extends(integration_class) :: sin_type
+    type,extends(integration_class_1d) :: sin_type
         integer  :: ifunc   = 0     !! which function to use
         real(wp) :: amp     = zero  !! amplitude
         real(wp) :: freq    = zero  !! frequency
@@ -25,14 +25,19 @@
         integer  :: n_evals = 0     !! number of function evaluations
     end type sin_type
 
-    type,extends(double_integration_class) :: my_doub
+    type,extends(integration_class_2d) :: my_doub
         integer :: ifunc    = 0   !! which function to use
         integer :: n_evals  = 0   !! number of function evaluations
     end type my_doub
+    type,extends(integration_class_3d) :: my_trip
+        integer :: ifunc    = 0   !! which function to use
+        integer :: n_evals  = 0   !! number of function evaluations
+    end type my_trip
 
     type(sin_type) :: my_int
-    type(my_doub) :: doub
-    real(wp) :: a, b, xl, xu, ans, err, answer, yl, yu
+    type(my_doub)  :: doub
+    type(my_trip)  :: trip
+    real(wp) :: a, b, xl, xu, ans, err, answer, yl, yu, zl, zu
     integer  :: ierr    !! error code
     integer  :: i       !! counter
     integer  :: meth    !! method number
@@ -141,6 +146,19 @@
         yu = 1.0_wp
         call run_2d_test()
 
+        !============================================
+        ! triple integral tests
+        !============================================
+
+        trip%ifunc = 1
+        xl = 2.0_wp
+        xu = 3.0_wp
+        yl = 1.0_wp
+        yu = 2.0_wp
+        zl = 0.0_wp
+        zu = 1.0_wp
+        call run_3d_test()
+
     end do
 
     contains
@@ -187,7 +205,7 @@
 
         implicit none
 
-        class(integration_class),intent(inout)  :: me
+        class(integration_class_1d),intent(inout)  :: me
         real(wp), intent(in)  :: x
         real(wp)              :: f
 
@@ -235,7 +253,7 @@
 
         implicit none
 
-        class(integration_class),intent(inout)  :: me
+        class(integration_class_1d),intent(inout)  :: me
         real(wp), intent(in)  :: a    !! lower limit
         real(wp), intent(in)  :: b    !! upper limit
         real(wp)              :: f
@@ -324,7 +342,7 @@
 
         implicit none
 
-        class(double_integration_class),intent(inout)   :: me
+        class(integration_class_2d),intent(inout)   :: me
         real(wp), intent(in)  :: x
         real(wp), intent(in)  :: y
         real(wp)              :: f
@@ -361,7 +379,7 @@
 
         implicit none
 
-        class(double_integration_class),intent(inout)  :: me
+        class(integration_class_2d),intent(inout)  :: me
         real(wp), intent(in)  :: xl
         real(wp), intent(in)  :: xu
         real(wp), intent(in)  :: yl
@@ -389,6 +407,113 @@
         end select
 
         end function test_2d_integral
+    !*************************************************************
+
+    !*************************************************************
+        subroutine run_3d_test()
+
+        implicit none
+
+        itest = trip%ifunc
+
+        !set up the class
+        call trip%initialize(fxyz=test_3d_func,xl=xl,xu=xu,yl=yl,yu=yu,zl=zl,zu=zu,&
+                             tolx=tol,toly=tol,tolz=tol,&
+                             methodx=meth,methody=meth,methodz=meth)
+
+        !reset number of function evaluations:
+        trip%n_evals = 0
+
+        !integrate the function:
+        call trip%integrate(ans, ierr, err)
+
+        !get the true answer:
+        answer = test_3d_integral(trip,xl,xu,yl,yu,zl,zu)
+
+        !print results:
+        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E30.16,A,I5,A,E30.16,A,I7,A,E30.16)') &
+                     itest, ',', &
+                     '3D',',',&
+                     trim(set_of_quadrature_methods(i)%name), ',', &
+                     tol, ',', &
+                     ans, ',', &
+                     ierr, ',', &
+                     err, ',', &
+                     doub%n_evals, ',', &
+                     answer - ans
+
+        end subroutine run_3d_test
+    !*************************************************************
+
+    !*************************************************************
+        function test_3d_func(me,x,y,z) result(f)
+
+        !! The function is f(x,y,z)
+
+        implicit none
+
+        class(integration_class_3d),intent(inout)   :: me
+        real(wp), intent(in)  :: x
+        real(wp), intent(in)  :: y
+        real(wp), intent(in)  :: z
+        real(wp)              :: f
+
+        select type (me)
+        class is (my_trip)
+
+            select case(me%ifunc)
+            case(1)
+
+                ! see : http://tutorial.math.lamar.edu/Classes/CalcIII/TripleIntegrals.aspx
+
+                f = 8.0_wp * x * y * z
+
+            case default
+                error stop 'Error in test_3d_func: invalid value of ifunc'
+            end select
+
+            me%n_evals = me%n_evals + 1
+
+        class default
+            error stop 'Error in test_3d_func: invalid class.'
+        end select
+
+        end function test_3d_func
+    !*************************************************************
+
+    !*************************************************************
+        function test_3d_integral(me,xl,xu,yl,yu,zl,zu) result(f)
+
+        !! The triple integral of f(x,y,z)
+
+        implicit none
+
+        class(integration_class_3d),intent(inout)  :: me
+        real(wp), intent(in)  :: xl
+        real(wp), intent(in)  :: xu
+        real(wp), intent(in)  :: yl
+        real(wp), intent(in)  :: yu
+        real(wp), intent(in)  :: zl
+        real(wp), intent(in)  :: zu
+        real(wp)              :: f
+
+        select type (me)
+        class is (my_trip)
+
+            select case(me%ifunc)
+            case(1)
+
+                f = 15.0_wp
+
+            case default
+                error stop 'Error in test_3d_integral: invalid value of ifunc'
+            end select
+
+        class default
+            error stop 'Error in test_3d_integral: invalid class.'
+        end select
+
+        end function test_3d_integral
     !*************************************************************
 
 !************************************************************************************

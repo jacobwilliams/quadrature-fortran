@@ -40,7 +40,7 @@ The core code is based on the SLATEC routine [DGAUS8](http://www.netlib.org/slat
 
 ### License
 
-The quadrature-fortran source code and related files and documentation are distributed under a permissive free software [license](https://github.com/jacobwilliams/quadrature-module/blob/master/LICENSE) (BSD-style).
+The quadrature-fortran source code and related files and documentation are distributed under a permissive free software [license](https://github.com/jacobwilliams/quadrature-fortran/blob/master/LICENSE) (BSD-style).
 
 ### Keywords
 

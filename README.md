@@ -1,4 +1,7 @@
-**quadrature-fortran** : Adaptive Gaussian Quadrature with Modern Fortran
+![quadrature-fortran](media/logo.png)
+============
+
+Adaptive Gaussian Quadrature with Modern Fortran
 
 ### Brief description
 

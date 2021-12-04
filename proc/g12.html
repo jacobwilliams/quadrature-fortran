@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="Adaptive Gaussian Quadrature with Modern Fortran">
+    
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>g12 &ndash; quadrature-fortran</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">quadrature-fortran </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../sourcefile/quadrature_module.f90.html">Source File</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+               
+        
+        
+            </ul>
+        
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/quadrature_module.f90.html">Source File</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>g12
+      <small>Function</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 1.8% of total for procedures.">10 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/quadrature_module.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/quadrature_module.f90.html'>quadrature_module.f90</a></li>
+    
+     <li><a href='../module/quadrature_module.html'>quadrature_module</a></li>
+    
+  
+     <li class="active">g12</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/g12.html#src">g12</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>
+private function g12(me, x, h) result(f)
+    
+    
+   
+</h2>
+    
+  
+
+
+    
+    <p>12-point method.</p>
+<h3>See also</h3>
+<ul>
+<li>Coefficients from:
+    http://processingjs.nihongoresources.com/bezierinfo/legendre-gauss-values.php</li>
+</ul>
+    
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-me~11"></span>class(<a href='../type/integration_class_1d.html'>integration_class_1d</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>me</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-x~11"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>x</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-h~5"></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>h</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    
+    
+    
+    
+   <h3>Return Value <small><span class="anchor" id="variable-f~11"></span>real(kind=wp)
+  </small></h3>
+    
+    
+    
+    
+     
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/g12.html#src">g12</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>    <span class="k">function </span><span class="n">g12</span><span class="p">(</span><span class="n">me</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">implicit none</span>
+
+<span class="k">    class</span><span class="p">(</span><span class="n">integration_class_1d</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">me</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">h</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span>             <span class="kd">::</span> <span class="n">f</span>
+
+    <span class="c">!&gt; abscissae:</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span>  <span class="n">a</span> <span class="o">=</span> <span class="p">[</span>   <span class="mf">0.12523340851146891547244136946385312998339691630</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">544427321292175474846205624138968874286829846949</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">135959410459879132051097315159969664463407959720</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">578930281363427149751877364610797786290401085851</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">749803458163536009061915338533985792224380950454</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">5097342064247739686883799517760948964137522919201_wp</span><span class="p">,&amp;</span>
+                                                <span class="mf">0.36783149899818019375269153664371756125636014133</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">540962131179987950408992951678787387873442850054</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">657723463312639597714521513515217932743935324199</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">163774275382871320389664162274303718284470963188</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">934547884841822611461227526979609371629600504639</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">62319787423676668046033025242558536362617894366679_wp</span><span class="p">,&amp;</span>
+                                                <span class="mf">0.58731795428661744729670241894053428036909851404</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">805248151027087966734069937589526243571076498874</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">820190960155999292889267723106959108867175142499</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">189843704151965799654931521792486834699342245746</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">542270556959107871794349154143635139191674285545</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">96877940491139756923177447689738849120865435563147_wp</span><span class="p">,&amp;</span>
+                                                <span class="mf">0.76990267419430468703689383321281807598492575001</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">893163766441906424911654310847122401642499922342</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">191061761754045422185620704016285265354759491942</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">035158754711514435184626896570143367857869960707</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">068262822102488760216156789235759062543109515384</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">10899341797549230707021382467596975621464477134163_wp</span><span class="p">,&amp;</span>
+                                                <span class="mf">0.90411725637047485667846586611909619253759670921</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">329754655407576068123479572923579048696942782373</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">326781186038289641042234889971981954299601063524</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">901258268291998347354448614206140899100247009682</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">576258221693446448698746167580757842398074380920</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">64065954540171679180850205196702894963912359448494_wp</span><span class="p">,&amp;</span>
+                                                <span class="mf">0.98156063424671925069054909014928082296015519981</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">373151046268212180779324431825398222525726789045</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">223578555649237284127318524545703044707716708276</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">967488752886112565550184482662910041202137201539</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">996961235882788466302337187351583920530374414763</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">9383170419389543470920618543180673569225988370568_wp</span><span class="p">]</span>
+
+    <span class="c">!&gt; weights:</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span>  <span class="n">w</span> <span class="o">=</span> <span class="p">[</span>   <span class="mf">0.24914704581340278500056243604295121083046090256</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">961883139535100311627942745728804303115680061804</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">235306483347611787718583305851107360364968803964</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">210377008542941502737221091728257019684301646591</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">924021619820796255207324340857766137885796625403</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">29347837170742904111565650371846972323325015720931_wp</span><span class="p">,&amp;</span>
+                                                <span class="mf">0.23349253653835480876084989892487805625940997219</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">975487473052349782149200007941167528067902650856</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">369046673875643970886883389854278840891609661975</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">038847380753533248145179488750388812162792803042</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">489598308782293577290791644231030018795306547073</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">15375809270840669989018891281956753131165193423269_wp</span><span class="p">,&amp;</span>
+                                                <span class="mf">0.20316742672306592174906445580979837650651814727</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">459014639859456579764563251047284379514439506460</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">523243116042933686325996496137135190210132907910</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">420189599423685656890245260738280276852445703846</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">681240064758134063899875305215261728059344541572</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">2327927963339557545261423500783899286052850767594_wp</span><span class="p">,&amp;</span>
+                                                <span class="mf">0.16007832854334622633465252954335907187201173049</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">086417790989954415795422517329115068165655263705</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">773052707487709681280262724376386088264904467503</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">100243409511213679869020659979278560098046375913</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">998387244938872586336059061667742863824552984448</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">70458396283884610940466728874776625823124924247387_wp</span><span class="p">,&amp;</span>
+                                                <span class="mf">0.10693932599531843096025471819399622421457017347</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">032488000512604210281899362749757654053731809631</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">645741357635933314114416117033051696355084484800</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">865232691960050114390447649204829355515358576079</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">107052492180710337954704248957128309309678064675</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">98358517298903536137451828089012822811396588037254_wp</span><span class="p">,&amp;</span>
+                                                <span class="mf">0.04717533638651182719461596148501706031702907399</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">484708956050534700380972115203871067082590707541</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">453609661610167559673857966748040823913299673846</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">365109909808575797967885849598965975687054894525</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">799700269519193179311245399071070942125321236826</span><span class="p">&amp;</span>
+                                                <span class="p">&amp;</span><span class="mi">63180160342232703368882666374567833050364187887189_wp</span><span class="p">]</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="n">h</span> <span class="o">*</span> <span class="p">(</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span>  <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span>   <span class="o">+</span>  <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
+              <span class="n">w</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span>  <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span>   <span class="o">+</span>  <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
+              <span class="n">w</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="p">(</span>  <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span>   <span class="o">+</span>  <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
+              <span class="n">w</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="p">(</span>  <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span>   <span class="o">+</span>  <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
+              <span class="n">w</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="p">(</span>  <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span>   <span class="o">+</span>  <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
+              <span class="n">w</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">*</span><span class="p">(</span>  <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span>   <span class="o">+</span>  <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span>
+
+    <span class="k">end function </span><span class="n">g12</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>quadrature-fortran was developed by Jacob Williams<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
+            
+          </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

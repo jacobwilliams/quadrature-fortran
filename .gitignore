@@ -36,3 +36,7 @@
 /archive
 /bin
 /lib
+/build
+
+# misc
+.DS_Store

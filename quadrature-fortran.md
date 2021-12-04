@@ -14,5 +14,7 @@ display: public
          private
 source: true
 graph: false
-extra_mods: iso_fortran_env:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html
 exclude_dir: ./src/tests
+extra_mods: iso_fortran_env:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html
+
+{!README.md!}

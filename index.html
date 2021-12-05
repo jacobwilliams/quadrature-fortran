@@ -141,31 +141,33 @@
           <h1><img alt="quadrature-fortran" src="media/logo.png"></h1>
 <p>Adaptive Gaussian Quadrature with Modern Fortran</p>
 <h3>Brief description</h3>
-<p>An object-oriented modern Fortran library to integrate functions using adaptive Gaussian quadrature. There are five selectable methods to use:
-* Adaptive 6-point Legendre-Gauss
-* Adaptive 8-point Legendre-Gauss
-* Adaptive 10-point Legendre-Gauss
-* Adaptive 12-point Legendre-Gauss
-* Adaptive 14-point Legendre-Gauss</p>
+<p>An object-oriented modern Fortran library to integrate functions using adaptive Gaussian quadrature. There are five selectable methods to use:</p>
+<ul>
+<li>Adaptive 6-point Legendre-Gauss</li>
+<li>Adaptive 8-point Legendre-Gauss</li>
+<li>Adaptive 10-point Legendre-Gauss</li>
+<li>Adaptive 12-point Legendre-Gauss</li>
+<li>Adaptive 14-point Legendre-Gauss</li>
+</ul>
 <p>The library supports:</p>
 <ul>
 <li>1D integration:
-  <script type="math/tex; mode=display"> \int_{x_l}^{x_u} f(x) dx </script>
+   <script type="math/tex; mode=display"> \int_{x_l}^{x_u} f(x) dx </script>
 </li>
 <li>2D integration:
-  <script type="math/tex; mode=display">\int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y) dx dy</script>
+   <script type="math/tex; mode=display">\int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y) dx  dy</script>
 </li>
 <li>3D integration:
-  <script type="math/tex; mode=display">\int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y,z) dx dy dz</script>
+   <script type="math/tex; mode=display">\int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l} ^{x_u} f(x,y,z) dx dy dz</script>
 </li>
 <li>4D integration:
-  <script type="math/tex; mode=display">\int_{q_l}^{q_u} \int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y,z,q) dx dy dz dq</script>
+   <script type="math/tex; mode=display">\int_{q_l}^{q_u} \int_{z_l}^{z_u} \int_{y_l} ^{y_u} \int_{x_l}^{x_u} f(x,y,z,q) dx dy dz  dq</script>
 </li>
 <li>5D integration:
-  <script type="math/tex; mode=display">\int_{r_l}^{r_u} \int_{q_l}^{q_u} \int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y,z,q,r) dx dy dz dq dr</script>
+   <script type="math/tex; mode=display">\int_{r_l}^{r_u} \int_{q_l}^{q_u} \int_{z_l} ^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x, y,z,q,r) dx dy dz dq dr</script>
 </li>
 <li>6D integration:
-  <script type="math/tex; mode=display">\int_{s_l}^{s_u} \int_{r_l}^{r_u} \int_{q_l}^{q_u} \int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y,z,q,r,s) dx dy dz dq dr ds</script>
+   <script type="math/tex; mode=display">\int_{s_l}^{s_u} \int_{r_l}^{r_u} \int_{q_l} ^{q_u} \int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_ {x_l}^{x_u} f(x,y,z,q,r,s) dx dy dz dq dr ds</script>
 </li>
 </ul>
 <p>The core code is based on the SLATEC routine <a href="http://www.netlib.org/slatec/src/dgaus8.f">DGAUS8</a> (which is the source of the 8-point routine). Coefficients for the others were obtained from <a href="http://processingjs.nihongoresources.com/bezierinfo/legendre-gauss-values.php">here</a>. The original 1D code has been generalized for multi-dimensional integration.</p>

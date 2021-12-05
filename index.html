@@ -150,23 +150,23 @@
 <p>The library supports:</p>
 <ul>
 <li>1D integration:
-  <code>math
-  \int_{x_l}^{x_u} f(x) dx</code></li>
+  <script type="math/tex; mode=display"> \int_{x_l}^{x_u} f(x) dx </script>
+</li>
 <li>2D integration:
-  <code>math
-  \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y) dx dy</code></li>
+  <script type="math/tex; mode=display">\int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y) dx dy</script>
+</li>
 <li>3D integration:
-  <code>math
-  \int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y,z) dx dy dz</code></li>
+  <script type="math/tex; mode=display">\int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y,z) dx dy dz</script>
+</li>
 <li>4D integration:
-  <code>math
-  \int_{q_l}^{q_u} \int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y,z,q) dx dy dz dq</code></li>
+  <script type="math/tex; mode=display">\int_{q_l}^{q_u} \int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y,z,q) dx dy dz dq</script>
+</li>
 <li>5D integration:
-  <code>math
-  \int_{r_l}^{r_u} \int_{q_l}^{q_u} \int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y,z,q,r) dx dy dz dq dr</code></li>
+  <script type="math/tex; mode=display">\int_{r_l}^{r_u} \int_{q_l}^{q_u} \int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y,z,q,r) dx dy dz dq dr</script>
+</li>
 <li>6D integration:
-  <code>math
-  \int_{s_l}^{s_u} \int_{r_l}^{r_u} \int_{q_l}^{q_u} \int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y,z,q,r,s) dx dy dz dq dr ds</code></li>
+  <script type="math/tex; mode=display">\int_{s_l}^{s_u} \int_{r_l}^{r_u} \int_{q_l}^{q_u} \int_{z_l}^{z_u} \int_{y_l}^{y_u} \int_{x_l}^{x_u} f(x,y,z,q,r,s) dx dy dz dq dr ds</script>
+</li>
 </ul>
 <p>The core code is based on the SLATEC routine <a href="http://www.netlib.org/slatec/src/dgaus8.f">DGAUS8</a> (which is the source of the 8-point routine). Coefficients for the others were obtained from <a href="http://processingjs.nihongoresources.com/bezierinfo/legendre-gauss-values.php">here</a>. The original 1D code has been generalized for multi-dimensional integration.</p>
 <h3>Compiling</h3>

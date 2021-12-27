@@ -50,7 +50,7 @@
 
     do i=1,size(set_of_quadrature_methods)  !test all the methods
 
-        meth = set_of_quadrature_methods(i)%n_points
+        meth = set_of_quadrature_methods(i)%id
 
         !============================================
         ! single integral tests
@@ -184,7 +184,7 @@
         answer = test_integral(my_int,a,b)
 
         !print results:
-        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E30.16,A,I5,A,E30.16,A,I7,A,E30.16)') &
+        write(*,'(1p,I3,A,A,A,A35,A,E15.5,A,E30.16,A,I5,A,E30.16,A,I7,A,E30.16)') &
                      itest, ',', &
                      '1D',',',&
                      trim(set_of_quadrature_methods(i)%name), ',', &
@@ -321,7 +321,7 @@
         answer = test_2d_integral(doub,xl,xu,yl,yu)
 
         !print results:
-        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E30.16,A,I5,A,E30.16,A,I7,A,E30.16)') &
+        write(*,'(1p,I3,A,A,A,A35,A,E15.5,A,E30.16,A,I5,A,E30.16,A,I7,A,E30.16)') &
                      itest, ',', &
                      '2D',',',&
                      trim(set_of_quadrature_methods(i)%name), ',', &
@@ -431,7 +431,7 @@
         answer = test_3d_integral(trip,xl,xu,yl,yu,zl,zu)
 
         !print results:
-        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E30.16,A,I5,A,E30.16,A,I7,A,E30.16)') &
+        write(*,'(1p,I3,A,A,A,A35,A,E15.5,A,E30.16,A,I5,A,E30.16,A,I7,A,E30.16)') &
                      itest, ',', &
                      '3D',',',&
                      trim(set_of_quadrature_methods(i)%name), ',', &

@@ -23,29 +23,65 @@
     real(wp),parameter :: two       = 2.0_wp
     real(wp),parameter :: three     = 3.0_wp
     real(wp),parameter :: four      = 4.0_wp
+    real(wp),parameter :: five      = 5.0_wp
 
     type,public :: quadrature_method
         !! quadrature methods
-        integer            :: n_points = 0
-        character(len=100) :: name     = ''
+        integer            :: id = 0
+        character(len=100) :: name = ''
     end type quadrature_method
 
-    type(quadrature_method),parameter :: quad_gauss_6  = quadrature_method(6,  'Adaptive 6-point Legendre-Gauss')
-    type(quadrature_method),parameter :: quad_gauss_8  = quadrature_method(8,  'Adaptive 8-point Legendre-Gauss')
-    type(quadrature_method),parameter :: quad_gauss_10 = quadrature_method(10, 'Adaptive 10-point Legendre-Gauss')
-    type(quadrature_method),parameter :: quad_gauss_12 = quadrature_method(12, 'Adaptive 12-point Legendre-Gauss')
-    type(quadrature_method),parameter :: quad_gauss_14 = quadrature_method(14, 'Adaptive 14-point Legendre-Gauss')
+    type(quadrature_method),parameter :: quad_gauss_6          = quadrature_method(1, 'Adaptive 6-point Legendre-Gauss ')
+    type(quadrature_method),parameter :: quad_gauss_8          = quadrature_method(2, 'Adaptive 8-point Legendre-Gauss ')
+    type(quadrature_method),parameter :: quad_gauss_10         = quadrature_method(3, 'Adaptive 10-point Legendre-Gauss')
+    type(quadrature_method),parameter :: quad_gauss_12         = quadrature_method(4, 'Adaptive 12-point Legendre-Gauss')
+    type(quadrature_method),parameter :: quad_gauss_14         = quadrature_method(5, 'Adaptive 14-point Legendre-Gauss')
+    type(quadrature_method),parameter :: quad_adaptive_simpson = quadrature_method(6, 'Adaptive Simpson                ')
+    type(quadrature_method),parameter :: quad_adaptive_lobatto = quadrature_method(7, 'Adaptive Lobatto                ')
 
-    type(quadrature_method),dimension(5),parameter,public :: set_of_quadrature_methods = &
+    type(quadrature_method),dimension(*),parameter,public :: set_of_quadrature_methods = &
                                                                  [ quad_gauss_6 ,&
                                                                    quad_gauss_8 ,&
                                                                    quad_gauss_10,&
                                                                    quad_gauss_12,&
-                                                                   quad_gauss_14 ]
+                                                                   quad_gauss_14, &
+                                                                   quad_adaptive_simpson, &
+                                                                   quad_adaptive_lobatto ]
 
     type,abstract,private :: integration_class
         private
     end type integration_class
+
+    type,abstract,private :: integration_method
+        !! single integration method: for 1d integration of `f(x)`
+        private
+        contains
+        private
+        procedure(integration_method_func),deferred,nopass :: method
+    end type integration_method
+    type,extends(integration_method) :: legendre_gauss_integrator
+        !! legendre-gauss method
+        private
+        procedure(gauss_func),pointer,nopass :: g => null()  !! the guass quadrature formula to use
+        contains
+        private
+        procedure,nopass :: method => dgauss_generic  !! core integration routine. refactored from
+                                                      !! SLATEC with selectable quadrature method
+    end type legendre_gauss_integrator
+    type,extends(integration_method) :: simpson_integrator
+        !! recursive simpson method
+        private
+        contains
+        private
+        procedure,nopass :: method => adaptive_simpson
+    end type simpson_integrator
+    type,extends(integration_method) :: lobatto_integrator
+        !! recursive lobatto method
+    private
+        contains
+        private
+        procedure,nopass :: method => adaptive_lobatto
+    end type lobatto_integrator
 
     type,extends(integration_class),public :: integration_class_1d
         !! single integration class: for 1d integration of `f(x)`
@@ -54,7 +90,6 @@
 
         procedure(func_1d),pointer :: fun => null()  !! function `f(x)` to be integrated
 
-        procedure(gauss_func),pointer :: g => null()  !! the guass quadrature formula to use
         real(wp) :: a      = zero      !! lower limit of integration
         real(wp) :: b      = zero      !! upper limit of integration (may be less than a)
         real(wp) :: tol    = zero      !! the requested relative error tolerance.
@@ -62,12 +97,12 @@
         real(wp) :: val = zero   !! the value of `x`. Only used for multiple
                                  !! integration to pass to the inner integrals
 
+        class(integration_method),allocatable :: method !! the method to use
+
         contains
 
         private
 
-        procedure :: dgauss_generic  !! core integration routine. refactored from
-                                     !! SLATEC with selectable quadrature method
         procedure,public :: initialize => initialize_integration_class !! to set up the class
         procedure,public :: integrate  => integrate_1d !! to integrate the function `fun`
 
@@ -224,6 +259,19 @@
             real(wp)                                :: f
         end function gauss_func
 
+        recursive subroutine integration_method_func (me, lb, ub, error_tol, ans, ierr, err)
+            !! integration method
+            import :: wp, integration_class_1d
+            implicit none
+            class(integration_class_1d),intent(inout)  :: me
+            real(wp),intent(in)   :: lb
+            real(wp),intent(in)   :: ub
+            real(wp),intent(in)   :: error_tol
+            real(wp),intent(out)  :: ans
+            integer,intent(out)   :: ierr
+            real(wp),intent(out)  :: err
+        end subroutine integration_method_func
+
     end interface
 
     contains
@@ -246,15 +294,37 @@
     real(wp),intent(in)   :: tolx     !! error tolerance for dx integration
     integer,intent(in)    :: methodx  !! quadrature method to use for x
 
-    ! select quadrature rule
+    if (allocated(me%method)) deallocate(me%method)
+
+    ! select method to use
     select case (methodx)
-    case(6);  me%g => g6
-    case(8);  me%g => g8
-    case(10); me%g => g10
-    case(12); me%g => g12
-    case(14); me%g => g14
+
+    case(1:5)
+        allocate(legendre_gauss_integrator :: me%method)
+        associate (method => me%method)
+            select type (method)
+            class is (legendre_gauss_integrator)
+                ! select quadrature rule
+                select case (methodx)
+                case(1); method%g => g6
+                case(2); method%g => g8
+                case(3); method%g => g10
+                case(4); method%g => g12
+                case(5); method%g => g14
+                case default
+                    error stop 'invalid quadrature method in initialize_integration_class'
+                end select
+            end select
+        end associate
+
+    case(6)
+        allocate(simpson_integrator :: me%method)
+
+    case(7)
+        allocate(lobatto_integrator :: me%method)
+
     case default
-        error stop 'invalid quadrature method in initialize_integration_class'
+        error stop 'invalid methodx in initialize_integration_class'
     end select
 
     me%fun  => fx       !the function f(x) to integrate
@@ -499,7 +569,7 @@
     real(wp),intent(out)  :: err
 
     !call the low-level routine:
-    call me%dgauss_generic(me%a, me%b, me%tol, ans, ierr, err)
+    call me%method%method(me, me%a, me%b, me%tol, ans, ierr, err)
 
     end subroutine integrate_1d
 !********************************************************************************
@@ -859,109 +929,118 @@
     real(wp),dimension(iwork) :: aa,hh,vl,gr
     integer,dimension(iwork)  :: lr
 
-    ans = zero
-    ierr = 1
-    err = zero
-    if (lb == ub) return
-    aa = zero
-    hh = zero
-    vl = zero
-    gr = zero
-    lr = 0
-    k = digits(one)
-    anib = d1mach5*k/magic
-    nbits = anib
-    nlmx = min(60,(nbits*5)/8)         ! ... is this the same 60 as iwork???
-    lmx = nlmx
-    lmn = nlmn
-    if (ub /= zero) then
-        if (sign(one,ub)*lb > zero) then
-            c = abs(one-lb/ub)
-            if (c <= 0.1_wp) then
-                if (c <= zero) return
-                anib = one_half - log(c)/ln2
-                nib = anib
-                lmx = min(nlmx,nbits-nib-7)
-                if (lmx < 1) then
-                    ! lb and ub are too nearly equal to allow
-                    ! normal integration [ans is set to zero]
-                    ierr = -1
-                    return
+    associate (method => me%method)
+        select type (method)
+        class is (legendre_gauss_integrator)
+
+            ans = zero
+            ierr = 1
+            err = zero
+            if (lb == ub) return
+            aa = zero
+            hh = zero
+            vl = zero
+            gr = zero
+            lr = 0
+            k = digits(one)
+            anib = d1mach5*k/magic
+            nbits = anib
+            nlmx = min(60,(nbits*5)/8)         ! ... is this the same 60 as iwork???
+            lmx = nlmx
+            lmn = nlmn
+            if (ub /= zero) then
+                if (sign(one,ub)*lb > zero) then
+                    c = abs(one-lb/ub)
+                    if (c <= 0.1_wp) then
+                        if (c <= zero) return
+                        anib = one_half - log(c)/ln2
+                        nib = anib
+                        lmx = min(nlmx,nbits-nib-7)
+                        if (lmx < 1) then
+                            ! lb and ub are too nearly equal to allow
+                            ! normal integration [ans is set to zero]
+                            ierr = -1
+                            return
+                        end if
+                        lmn = min(lmn,lmx)
+                    end if
                 end if
-                lmn = min(lmn,lmx)
             end if
-        end if
-    end if
-    tol = max(abs(error_tol),two**(5-nbits))/two
-    if (error_tol == zero) tol = sqrt(d1mach4)
-    eps = tol
-    hh(1) = (ub-lb)/four
-    aa(1) = lb
-    lr(1) = 1
-    l = 1
-    est = me%g(aa(l)+two*hh(l),two*hh(l))
-    k = 8
-    area = abs(est)
-    ef = one_half
-    mxl = 0
+            tol = max(abs(error_tol),two**(5-nbits))/two
+            if (error_tol == zero) tol = sqrt(d1mach4)
+            eps = tol
+            hh(1) = (ub-lb)/four
+            aa(1) = lb
+            lr(1) = 1
+            l = 1
+            est = method%g(me,aa(l)+two*hh(l),two*hh(l))
+            k = 8
+            area = abs(est)
+            ef = one_half
+            mxl = 0
 
-    !compute refined estimates, estimate the error, etc.
-    main : do
+            !compute refined estimates, estimate the error, etc.
+            main : do
 
-        gl = me%g(aa(l)+hh(l),hh(l))
-        gr(l) = me%g(aa(l)+three*hh(l),hh(l))
-        k = k + 16
-        area = area + (abs(gl)+abs(gr(l))-abs(est))
-        glr = gl + gr(l)
-        ee = abs(est-glr)*ef
-        ae = max(eps*area,tol*abs(glr))
-        if (ee-ae > zero) then
-            !consider the left half of this level
-            if (k > kmx) lmx = kml
-            if (l >= lmx) then
-                mxl = 1
-            else
-                l = l + 1
-                eps = eps*one_half
-                ef = ef/sq2
-                hh(l) = hh(l-1)*one_half
-                lr(l) = -1
-                aa(l) = aa(l-1)
-                est = gl
-                cycle main
-            end if
-        end if
+                gl = method%g(me,aa(l)+hh(l),hh(l))
+                gr(l) = method%g(me,aa(l)+three*hh(l),hh(l))
+                k = k + 16
+                area = area + (abs(gl)+abs(gr(l))-abs(est))
+                glr = gl + gr(l)
+                ee = abs(est-glr)*ef
+                ae = max(eps*area,tol*abs(glr))
+                if (ee-ae > zero) then
+                    !consider the left half of this level
+                    if (k > kmx) lmx = kml
+                    if (l >= lmx) then
+                        mxl = 1
+                    else
+                        l = l + 1
+                        eps = eps*one_half
+                        ef = ef/sq2
+                        hh(l) = hh(l-1)*one_half
+                        lr(l) = -1
+                        aa(l) = aa(l-1)
+                        est = gl
+                        cycle main
+                    end if
+                end if
 
-        err = err + (est-glr)
-        if (lr(l) > 0) then
-            !return one level
-            ans = glr
-            do
-                if (l <= 1) exit main ! finished
-                l = l - 1
-                eps = eps*two
-                ef = ef*sq2
-                if (lr(l) <= 0) then
-                    vl(l) = vl(l+1) + ans
+                err = err + (est-glr)
+                if (lr(l) > 0) then
+                    !return one level
+                    ans = glr
+                    do
+                        if (l <= 1) exit main ! finished
+                        l = l - 1
+                        eps = eps*two
+                        ef = ef*sq2
+                        if (lr(l) <= 0) then
+                            vl(l) = vl(l+1) + ans
+                            est = gr(l-1)
+                            lr(l) = 1
+                            aa(l) = aa(l) + four*hh(l)
+                            cycle main
+                        end if
+                        ans = vl(l+1) + ans
+                    end do
+                else
+                    !proceed to right half at this level
+                    vl(l) = glr
                     est = gr(l-1)
                     lr(l) = 1
                     aa(l) = aa(l) + four*hh(l)
                     cycle main
                 end if
-                ans = vl(l+1) + ans
-            end do
-        else
-            !proceed to right half at this level
-            vl(l) = glr
-            est = gr(l-1)
-            lr(l) = 1
-            aa(l) = aa(l) + four*hh(l)
-            cycle main
-        end if
 
-    end do main
+            end do main
 
-    if ((mxl/=0) .and. (abs(err)>two*tol*area)) ierr = 2 ! ans is probably insufficiently accurate
+            if ((mxl/=0) .and. (abs(err)>two*tol*area)) ierr = 2 ! ans is probably insufficiently accurate
+
+        class default
+            error stop 'Unknown class in dgauss_generic'
+        end select
+    end associate
 
     end subroutine dgauss_generic
 !********************************************************************************
@@ -1420,6 +1499,263 @@
               w(7)*(  me%fun(x-a(7)*h)   +  me%fun(x+a(7)*h) ) )
 
     end function g14
+!************************************************************************************
+
+
+
+!************************************************************************************
+!>
+!   Numerically evaluate integral using adaptive Simpson rule.
+!
+!### See also
+!  * W. Gander and W. Gautschi, "Adaptive Quadrature - Revisited",
+!    BIT Vol. 40, No. 1, March 2000, pp. 84--101.
+
+    recursive subroutine adaptive_simpson (me, lb, ub, error_tol, ans, ierr, err)
+
+    implicit none
+
+    class(integration_class_1d),intent(inout) :: me
+    real(wp),intent(in)                     :: lb
+    real(wp),intent(in)                     :: ub
+    real(wp),intent(in)                     :: error_tol    !! relative error tolerance
+    real(wp),intent(out)                    :: ans
+    integer,intent(out)                     :: ierr !! 1 = success
+                                                    !! 2 = requested accuracy may not be satisfied
+    real(wp),intent(out)                    :: err  !! Not computed by this routine
+
+    real(wp) :: a,b,bma,is,tol,fa,fm,fb
+    real(wp),dimension(5) :: yy
+
+    real(wp),parameter :: eps = epsilon(one)
+    real(wp),dimension(5),parameter :: c = [.9501_wp, .2311_wp, .6068_wp, .4860_wp, .8913_wp]
+
+    ierr = 1
+    a = lb
+    b = ub
+    bma = b-a
+    if (error_tol<eps) then
+        tol = eps
+    else
+        tol = error_tol
+    end if
+
+    fa    = me%fun(a)
+    fm    = me%fun((a+b)/two)
+    fb    = me%fun(b)
+    yy(1) = me%fun(a+c(1)*bma )
+    yy(2) = me%fun(a+c(2)*bma )
+    yy(3) = me%fun(a+c(3)*bma )
+    yy(4) = me%fun(a+c(4)*bma )
+    yy(5) = me%fun(a+c(5)*bma )
+
+    is = bma/8.0_wp * (fa+fm+fb+sum(yy))
+    if (is==zero) is = bma
+    is = is*tol/eps
+
+    call adaptive_simpson_step(me,a,b,fa,fm,fb,is, ans,ierr)
+
+    err = zero
+
+    contains
+
+    !**************************************************************
+    !>
+    !   Recursive function used by adaptive_simpson.
+    !   Tries to approximate the integral of f(x) from a to b
+    !       to an appropriate relative error.
+
+        recursive subroutine adaptive_simpson_step (me,a,b,fa,fm,fb,is,ans,ierr)
+
+        implicit none
+
+        !subroutine arguments:
+        class(integration_class_1d),intent(inout)  :: me
+        real(wp),intent(in)                     :: a
+        real(wp),intent(in)                     :: b
+        real(wp),intent(in)                     :: fa
+        real(wp),intent(in)                     :: fm
+        real(wp),intent(in)                     :: fb
+        real(wp),intent(in)                     :: is
+        real(wp),intent(out)                    :: ans
+        integer,intent(inout)                   :: ierr
+
+        real(wp) :: m,h,fml,fmr,i1,i2,i3,q1,q2
+
+        m = (a + b)/two
+        h = (b - a)/four
+        fml = me%fun(a + h)
+        fmr = me%fun(b - h)
+        i1 = h/1.5_wp * (fa + four*fm + fb)
+        i2 = h/three * (fa + four*(fml + fmr) + two*fm + fb)
+        i1 = (16.0_wp*i2 - i1)/15.0_wp
+
+        if ( (is + (i1-i2) == is) .or. (m <= a) .or. (b <= m) ) then
+
+            if ( ((m <= a) .or. (b<=m)) .and. (ierr==1) ) ierr = 2
+            ans = i1
+
+        else
+
+            call adaptive_simpson_step (me,a,m,fa,fml,fm,is,q1,ierr)
+            call adaptive_simpson_step (me,m,b,fm,fmr,fb,is,q2,ierr)
+
+            ans = q1 + q2
+
+        end if
+
+        end subroutine adaptive_simpson_step
+    !**************************************************************
+
+    end subroutine adaptive_simpson
+!************************************************************************************
+
+!************************************************************************************
+!>
+!   Numerically evaluate integral using adaptive Lobatto rule
+!
+!### See also
+!  * W. Gander and W. Gautschi, "Adaptive Quadrature - Revisited",
+!    BIT Vol. 40, No. 1, March 2000, pp. 84--101.
+
+    recursive subroutine adaptive_lobatto (me, lb, ub, error_tol, ans, ierr, err)
+
+    !subroutine arguments:
+    class(integration_class_1d),intent(inout) :: me
+    real(wp),intent(in)                     :: lb
+    real(wp),intent(in)                     :: ub
+    real(wp),intent(in)                     :: error_tol    !! relative error tolerance
+    real(wp),intent(out)                    :: ans
+    integer,intent(out)                     :: ierr !! 1 = success
+                                                    !! 2 = requested accuracy may not be satisfied
+    real(wp),intent(out)                    :: err  !! Not computed by this routine
+
+    real(wp) :: a,b,m,h,s,erri1,erri2,is,tol,fa,fb,i1,i2,r
+    real(wp),dimension(13) :: x,y
+    integer :: i
+
+    real(wp),parameter  :: eps  = epsilon(one)
+    real(wp),parameter  :: alpha = sqrt(two/three)
+    real(wp),parameter  :: beta  = one/sqrt(five)
+    real(wp),parameter  :: x1   = .942882415695480_wp
+    real(wp),parameter  :: x2   = .641853342345781_wp
+    real(wp),parameter  :: x3   = .236383199662150_wp
+    real(wp),dimension(7) :: c = [.0158271919734802_wp ,&
+                                  .0942738402188500_wp ,&
+                                  .155071987336585_wp ,&
+                                  .188821573960182_wp ,&
+                                  .199773405226859_wp ,&
+                                  .224926465333340_wp ,&
+                                  .242611071901408_wp ]
+
+    ierr = 1
+
+    a = lb
+    b = ub
+
+    if (error_tol<eps) then
+        tol = eps
+    else
+        tol = error_tol
+    end if
+
+    m = (a+b)/two
+    h = (b-a)/two
+
+    x = [a, m-x1*h, m-alpha*h, m-x2*h, m-beta*h, m-x3*h, m, m+x3*h, m+beta*h, m+x2*h, m+alpha*h, m+x1*h, b]
+    do i=1,13
+        y(i) = me%fun(x(i))
+    end do
+
+    fa=y(1)
+    fb=y(13)
+    i2=(h/6.0_wp)*(y(1)+y(13)+five*(y(5)+y(9)))
+    i1=(h/1470.0_wp)*(77.0_wp*(y(1)+y(13))+432.0_wp*(y(3)+y(11))+625.0_wp*(y(5)+y(9))+672.0_wp*y(7))
+
+    is = h*(c(1)*(y(1)+y(13)) + &
+            c(2)*(y(2)+y(12)) + &
+            c(3)*(y(3)+y(11)) + &
+            c(4)*(y(4)+y(10)) + &
+            c(5)*(y(5)+y(9))  + &
+            c(6)*(y(6)+y(8))  + &
+            c(7)*y(7))
+
+    s = sign(one,is)
+    if (s==zero) s = one
+    erri1 = abs(i1-is)
+    erri2 = abs(i2-is)
+    r = one
+    if (erri2/=zero) r=erri1/erri2
+    if (r>zero .and. r<one) tol=tol/r
+    is=s*abs(is)*tol/eps
+    if (is==zero) is=b-a
+
+    call adaptive_lobatto_step(me,a,b,fa,fb,is,ans,ierr)
+
+    err = zero
+
+    contains
+!**************************************************************
+!>
+!   Recursive function used by adaptive_lobatto.
+!   Tries to approximate the integral of f(x) from a to b
+!       to an appropriate relative error.
+
+    recursive subroutine adaptive_lobatto_step(me,a,b,fa,fb,is,ans,ierr)
+
+    implicit none
+
+    !subroutine arguments:
+    class(integration_class_1d),intent(inout)  :: me
+    real(wp),intent(in)   :: a
+    real(wp),intent(in)   :: b
+    real(wp),intent(in)   :: fa
+    real(wp),intent(in)   :: fb
+    real(wp),intent(in)   :: is
+    real(wp),intent(out)  :: ans
+    integer,intent(inout) :: ierr
+
+    real(wp) :: h,m,mll,ml,mr,mrr,fmll,fml,fm,fmr,fmrr,i2,i1
+    real(wp),dimension(6) :: q
+
+    h   = (b-a)/two
+    m   = (a+b)/two
+    mll = m-alpha*h
+    ml  = m-beta*h
+    mr  = m+beta*h
+    mrr = m+alpha*h
+
+    fmll    = me%fun(mll)
+    fml     = me%fun(ml)
+    fm      = me%fun(m)
+    fmr     = me%fun(mr)
+    fmrr    = me%fun(mrr)
+
+    i2 = (h/6.0_wp)*(fa+fb+five*(fml+fmr))
+    i1 = (h/1470.0_wp)*(77.0_wp*(fa+fb)+432.0_wp*(fmll+fmrr)+625.0_wp*(fml+fmr)+672.0_wp*fm)
+
+    if ( (is+(i1-i2)==is) .or. (mll<=a) .or. (b<=mrr) ) then
+
+        if (((m <= a) .or. (b<=m)) .and. (ierr==1)) ierr = 2
+        ans = i1
+
+    else
+
+        call adaptive_lobatto_step(me,a,mll,fa,fmll,    is,q(1),ierr)
+        call adaptive_lobatto_step(me,mll,ml,fmll,fml,  is,q(2),ierr)
+        call adaptive_lobatto_step(me,ml,m,fml,fm,      is,q(3),ierr)
+        call adaptive_lobatto_step(me,m,mr,fm,fmr,      is,q(4),ierr)
+        call adaptive_lobatto_step(me,mr,mrr,fmr,fmrr,  is,q(5),ierr)
+        call adaptive_lobatto_step(me,mrr,b,fmrr,fb,    is,q(6),ierr)
+
+        ans = sum(q)
+
+    end if
+
+    end subroutine adaptive_lobatto_step
+!**************************************************************
+
+    end subroutine adaptive_lobatto
 !************************************************************************************
 
 !*******************************************************************************************************

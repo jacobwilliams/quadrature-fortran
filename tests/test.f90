@@ -114,6 +114,11 @@
         b = 10.1_wp
         call run_test()
 
+        my_int%ifunc = 6
+        a = 0.0_wp
+        b = 1.0_wp
+        call run_test()
+
         !============================================
         ! double integral tests
         !============================================
@@ -233,6 +238,10 @@
 
                 f = exp(x)
 
+            case(6)
+
+                f = sqrt(x)
+
             case default
                 error stop 'Error in test_func: invalid value of ifunc:'
             end select
@@ -288,6 +297,11 @@
             case(5)
 
                 f = exp(b) - exp(a)
+
+            case(6)
+
+                !for bounds: [0,1]
+                f = 2.0_wp / 3.0_wp
 
             case default
                 error stop 'Error in test_integral: invalid value of ifunc'

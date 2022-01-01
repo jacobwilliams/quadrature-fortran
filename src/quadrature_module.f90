@@ -881,8 +881,8 @@
 !  * Jones, R. E., (SNLA) -- Original SLATEC code.
 !  * Jacob Williams : 1/20/2020 : refactored to modern Fortran and generalized.
 !
-!@note This function is recursive.
-!      [It can call itself indirectly during double integration]
+!@note Made this function recursive since it can call itself
+!      indirectly during 2D, 3D integration, etc.
 
     recursive subroutine dgauss_generic (me, lb, ub, error_tol, ans, ierr, err)
 
@@ -1501,8 +1501,6 @@
     end function g14
 !************************************************************************************
 
-
-
 !************************************************************************************
 !>
 !   Numerically evaluate integral using adaptive Simpson rule.
@@ -1553,19 +1551,16 @@
     if (is==zero) is = bma
     is = is*tol/eps
 
-    call adaptive_simpson_step(me,a,b,fa,fm,fb,is, ans,ierr)
+    call adaptive_simpson_step(me,a,b,fa,fm,fb,is,ans,ierr)
 
     err = zero
 
     contains
 
-    !**************************************************************
-    !>
-    !   Recursive function used by adaptive_simpson.
-    !   Tries to approximate the integral of f(x) from a to b
-    !       to an appropriate relative error.
-
-        recursive subroutine adaptive_simpson_step (me,a,b,fa,fm,fb,is,ans,ierr)
+    recursive subroutine adaptive_simpson_step (me,a,b,fa,fm,fb,is,ans,ierr)
+        !!  Recursive function used by adaptive_simpson.
+        !!  Tries to approximate the integral of f(x) from a to b
+        !!  to an appropriate relative error.
 
         implicit none
 
@@ -1695,62 +1690,61 @@
     err = zero
 
     contains
-!**************************************************************
-!>
-!   Recursive function used by adaptive_lobatto.
-!   Tries to approximate the integral of f(x) from a to b
-!       to an appropriate relative error.
 
     recursive subroutine adaptive_lobatto_step(me,a,b,fa,fb,is,ans,ierr)
 
-    implicit none
+        !!  Recursive function used by adaptive_lobatto.
+        !!  Tries to approximate the integral of f(x) from a to b
+        !!  to an appropriate relative error.
 
-    !subroutine arguments:
-    class(integration_class_1d),intent(inout)  :: me
-    real(wp),intent(in)   :: a
-    real(wp),intent(in)   :: b
-    real(wp),intent(in)   :: fa
-    real(wp),intent(in)   :: fb
-    real(wp),intent(in)   :: is
-    real(wp),intent(out)  :: ans
-    integer,intent(inout) :: ierr
+        implicit none
 
-    real(wp) :: h,m,mll,ml,mr,mrr,fmll,fml,fm,fmr,fmrr,i2,i1
-    real(wp),dimension(6) :: q
+        !subroutine arguments:
+        class(integration_class_1d),intent(inout)  :: me
+        real(wp),intent(in)   :: a
+        real(wp),intent(in)   :: b
+        real(wp),intent(in)   :: fa
+        real(wp),intent(in)   :: fb
+        real(wp),intent(in)   :: is
+        real(wp),intent(out)  :: ans
+        integer,intent(inout) :: ierr
 
-    h   = (b-a)/two
-    m   = (a+b)/two
-    mll = m-alpha*h
-    ml  = m-beta*h
-    mr  = m+beta*h
-    mrr = m+alpha*h
+        real(wp) :: h,m,mll,ml,mr,mrr,fmll,fml,fm,fmr,fmrr,i2,i1
+        real(wp),dimension(6) :: q
 
-    fmll    = me%fun(mll)
-    fml     = me%fun(ml)
-    fm      = me%fun(m)
-    fmr     = me%fun(mr)
-    fmrr    = me%fun(mrr)
+        h   = (b-a)/two
+        m   = (a+b)/two
+        mll = m-alpha*h
+        ml  = m-beta*h
+        mr  = m+beta*h
+        mrr = m+alpha*h
 
-    i2 = (h/6.0_wp)*(fa+fb+five*(fml+fmr))
-    i1 = (h/1470.0_wp)*(77.0_wp*(fa+fb)+432.0_wp*(fmll+fmrr)+625.0_wp*(fml+fmr)+672.0_wp*fm)
+        fmll    = me%fun(mll)
+        fml     = me%fun(ml)
+        fm      = me%fun(m)
+        fmr     = me%fun(mr)
+        fmrr    = me%fun(mrr)
 
-    if ( (is+(i1-i2)==is) .or. (mll<=a) .or. (b<=mrr) ) then
+        i2 = (h/6.0_wp)*(fa+fb+five*(fml+fmr))
+        i1 = (h/1470.0_wp)*(77.0_wp*(fa+fb)+432.0_wp*(fmll+fmrr)+625.0_wp*(fml+fmr)+672.0_wp*fm)
 
-        if (((m <= a) .or. (b<=m)) .and. (ierr==1)) ierr = 2
-        ans = i1
+        if ( (is+(i1-i2)==is) .or. (mll<=a) .or. (b<=mrr) ) then
 
-    else
+            if (((m <= a) .or. (b<=m)) .and. (ierr==1)) ierr = 2
+            ans = i1
 
-        call adaptive_lobatto_step(me,a,mll,fa,fmll,    is,q(1),ierr)
-        call adaptive_lobatto_step(me,mll,ml,fmll,fml,  is,q(2),ierr)
-        call adaptive_lobatto_step(me,ml,m,fml,fm,      is,q(3),ierr)
-        call adaptive_lobatto_step(me,m,mr,fm,fmr,      is,q(4),ierr)
-        call adaptive_lobatto_step(me,mr,mrr,fmr,fmrr,  is,q(5),ierr)
-        call adaptive_lobatto_step(me,mrr,b,fmrr,fb,    is,q(6),ierr)
+        else
 
-        ans = sum(q)
+            call adaptive_lobatto_step(me,a,mll,fa,fmll,    is,q(1),ierr)
+            call adaptive_lobatto_step(me,mll,ml,fmll,fml,  is,q(2),ierr)
+            call adaptive_lobatto_step(me,ml,m,fml,fm,      is,q(3),ierr)
+            call adaptive_lobatto_step(me,m,mr,fm,fmr,      is,q(4),ierr)
+            call adaptive_lobatto_step(me,mr,mrr,fmr,fmrr,  is,q(5),ierr)
+            call adaptive_lobatto_step(me,mrr,b,fmrr,fb,    is,q(6),ierr)
 
-    end if
+            ans = sum(q)
+
+        end if
 
     end subroutine adaptive_lobatto_step
 !**************************************************************

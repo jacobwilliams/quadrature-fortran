@@ -32,7 +32,7 @@ The core code is based on the SLATEC routine [DGAUS8](http://www.netlib.org/slat
 
 ### Compiling
 
-A [Fortran Package Manager](https://github.com/fortran-lang/fpm) manifest file is included, so that the library and tests cases can be compiled with FPM. For example:
+A [Fortran Package Manager](https://github.com/fortran-lang/fpm) manifest file is included, so that the library and test cases can be compiled with FPM. For example:
 
 ```
 fpm build --profile release

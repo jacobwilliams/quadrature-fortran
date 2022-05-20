@@ -53,7 +53,7 @@ jobs:
     #   run: fpm build --profile release
 
     - name: Run app
-      run: fpm run --profile debug --flag -coverage -- configs/ci.json
+      run: fpm run --profile debug --flag -coverage
 
     - name: Create coverage report
       run: |

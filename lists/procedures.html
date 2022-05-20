@@ -4,24 +4,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="Adaptive Gaussian Quadrature with Modern Fortran">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
-    <title>
-All Procedures &ndash; quadrature-fortran
+    <title>All Procedures &ndash; quadrature-fortran
 </title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
     <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -50,58 +44,27 @@ All Procedures &ndash; quadrature-fortran
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/quadrature_module.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-            <li><a href="../lists/types.html">Derived Types</a></li>
-        
-               
-        
-        
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+       
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/quadrature_module.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-
-
-
-
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
           </ul>
-        
         <form action="../search.html" class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
@@ -110,66 +73,45 @@ All Procedures &ndash; quadrature-fortran
         <button type="submit" class="btn btn-default">Submit</button>
 -->
         </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
       <div class="row">
         <div class="col-lg-12" id='text'>
 			 <h1>Procedures</h1>
 			 <table class="table table-striped">
 			 <thead><tr><th>Procedure</th><th>Location</th><th>Procedure Type</th><th>Description</th></tr></thead>
 			 <tbody>
-			 
 			   <tr><td><a href='../proc/dgauss_generic.html'>dgauss_generic</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Integrate a real function of one variable over a finite
   interval using the specified adaptive algorithm.
   Intended primarily for high accuracy
   integration or integration of smooth functions.</p><a href="../proc/dgauss_generic.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
 			   <tr><td><a href='../proc/g10.html'>g10</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Function</td><td><p>10-point method.</p><a href="../proc/g10.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
 			   <tr><td><a href='../proc/g12.html'>g12</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Function</td><td><p>12-point method.</p><a href="../proc/g12.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
 			   <tr><td><a href='../proc/g14.html'>g14</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Function</td><td><p>14-point method.</p><a href="../proc/g14.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
 			   <tr><td><a href='../proc/g6.html'>g6</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Function</td><td><p>6-point method.</p><a href="../proc/g6.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
 			   <tr><td><a href='../proc/g8.html'>g8</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Function</td><td><p>This is the 8-point formula from the original SLATEC routine
   <a href="http://www.netlib.org/slatec/src/dgaus8.f">DGAUS8</a>.</p><a href="../proc/g8.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
 			   <tr><td><a href='../proc/initialize_integration_class.html'>initialize_integration_class</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Initialize the 1D integration class.
 Must be called before integration is performed.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/initialize_integration_class_2d.html'>initialize_integration_class_2d</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Initialize the 2D integration class.
 Must be called before integration is performed.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/initialize_integration_class_3d.html'>initialize_integration_class_3d</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Initialize the 3D integration class.
 Must be called before integration is performed.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/initialize_integration_class_4d.html'>initialize_integration_class_4d</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Initialize the 4D integration class.
 Must be called before integration is performed.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/initialize_integration_class_5d.html'>initialize_integration_class_5d</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Initialize the 5D integration class.
 Must be called before integration is performed.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/initialize_integration_class_6d.html'>initialize_integration_class_6d</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Initialize the 6D integration class.
 Must be called before integration is performed.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/integrate_1d.html'>integrate_1d</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Perform the 1D integration.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/integrate_2d.html'>integrate_2d</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Perform the 2D integration.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/integrate_3d.html'>integrate_3d</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Perform the 3D integration.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/integrate_4d.html'>integrate_4d</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Perform the 4D integration.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/integrate_5d.html'>integrate_5d</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Perform the 5D integration.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/integrate_6d.html'>integrate_6d</a></td><td><a href='../module/quadrature_module.html'>quadrature_module</a></td><td>Subroutine</td><td><p>Perform the 6D integration.</p></td></tr>
-			 
 			 </tbody></table>
              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -182,129 +124,129 @@ Must be called before integration is performed.</p></td></tr>
 <g id="call~~graph~~CallGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 742)">
 <title>call~~graph~~CallGraph</title>
 <polygon fill="white" stroke="transparent" points="-4,4 -4,-742 175,-742 175,4 -4,4"/>
-<!-- proc~initialize_integration_class -->
+<!-- proc~dgauss_generic -->
 <g id="call~~graph~~CallGraph_node1" class="node">
-<title>proc~initialize_integration_class</title>
-<g id="a_call~~graph~~CallGraph_node1"><a xlink:href=".././proc/initialize_integration_class.html" xlink:title="initialize_integration_class">
-<polygon fill="#d9534f" stroke="#d9534f" points="161.5,-24 9.5,-24 9.5,0 161.5,0 161.5,-24"/>
-<text text-anchor="middle" x="85.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_integration_class</text>
-</a>
-</g>
-</g>
-<!-- proc~g10 -->
-<g id="call~~graph~~CallGraph_node2" class="node">
-<title>proc~g10</title>
-<g id="a_call~~graph~~CallGraph_node2"><a xlink:href=".././proc/g10.html" xlink:title="g10">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="112.5,-66 58.5,-66 58.5,-42 112.5,-42 112.5,-66"/>
-<text text-anchor="middle" x="85.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">g10</text>
+<title>proc~dgauss_generic</title>
+<g id="a_call~~graph~~CallGraph_node1"><a xlink:href=".././proc/dgauss_generic.html" xlink:title="dgauss_generic">
+<polygon fill="#d9534f" stroke="#d9534f" points="133.5,-24 37.5,-24 37.5,0 133.5,0 133.5,-24"/>
+<text text-anchor="middle" x="85.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dgauss_generic</text>
 </a>
 </g>
 </g>
 <!-- proc~integrate_3d -->
-<g id="call~~graph~~CallGraph_node3" class="node">
+<g id="call~~graph~~CallGraph_node2" class="node">
 <title>proc~integrate_3d</title>
-<g id="a_call~~graph~~CallGraph_node3"><a xlink:href=".././proc/integrate_3d.html" xlink:title="integrate_3d">
-<polygon fill="#d9534f" stroke="#d9534f" points="125.5,-108 45.5,-108 45.5,-84 125.5,-84 125.5,-108"/>
-<text text-anchor="middle" x="85.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">integrate_3d</text>
+<g id="a_call~~graph~~CallGraph_node2"><a xlink:href=".././proc/integrate_3d.html" xlink:title="integrate_3d">
+<polygon fill="#d9534f" stroke="#d9534f" points="125.5,-66 45.5,-66 45.5,-42 125.5,-42 125.5,-66"/>
+<text text-anchor="middle" x="85.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">integrate_3d</text>
 </a>
 </g>
 </g>
-<!-- proc~integrate_5d -->
-<g id="call~~graph~~CallGraph_node4" class="node">
-<title>proc~integrate_5d</title>
-<g id="a_call~~graph~~CallGraph_node4"><a xlink:href=".././proc/integrate_5d.html" xlink:title="integrate_5d">
-<polygon fill="#d9534f" stroke="#d9534f" points="125.5,-150 45.5,-150 45.5,-126 125.5,-126 125.5,-150"/>
-<text text-anchor="middle" x="85.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">integrate_5d</text>
-</a>
-</g>
-</g>
-<!-- proc~initialize_integration_class_5d -->
-<g id="call~~graph~~CallGraph_node5" class="node">
-<title>proc~initialize_integration_class_5d</title>
-<g id="a_call~~graph~~CallGraph_node5"><a xlink:href=".././proc/initialize_integration_class_5d.html" xlink:title="initialize_integration_class_5d">
-<polygon fill="#d9534f" stroke="#d9534f" points="171,-192 0,-192 0,-168 171,-168 171,-192"/>
-<text text-anchor="middle" x="85.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_integration_class_5d</text>
-</a>
-</g>
-</g>
-<!-- proc~initialize_integration_class_2d -->
-<g id="call~~graph~~CallGraph_node6" class="node">
-<title>proc~initialize_integration_class_2d</title>
-<g id="a_call~~graph~~CallGraph_node6"><a xlink:href=".././proc/initialize_integration_class_2d.html" xlink:title="initialize_integration_class_2d">
-<polygon fill="#d9534f" stroke="#d9534f" points="171,-234 0,-234 0,-210 171,-210 171,-234"/>
-<text text-anchor="middle" x="85.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_integration_class_2d</text>
-</a>
-</g>
-</g>
-<!-- proc~integrate_6d -->
-<g id="call~~graph~~CallGraph_node7" class="node">
-<title>proc~integrate_6d</title>
-<g id="a_call~~graph~~CallGraph_node7"><a xlink:href=".././proc/integrate_6d.html" xlink:title="integrate_6d">
-<polygon fill="#d9534f" stroke="#d9534f" points="125.5,-276 45.5,-276 45.5,-252 125.5,-252 125.5,-276"/>
-<text text-anchor="middle" x="85.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">integrate_6d</text>
-</a>
-</g>
-</g>
-<!-- proc~dgauss_generic -->
-<g id="call~~graph~~CallGraph_node8" class="node">
-<title>proc~dgauss_generic</title>
-<g id="a_call~~graph~~CallGraph_node8"><a xlink:href=".././proc/dgauss_generic.html" xlink:title="dgauss_generic">
-<polygon fill="#d9534f" stroke="#d9534f" points="133.5,-318 37.5,-318 37.5,-294 133.5,-294 133.5,-318"/>
-<text text-anchor="middle" x="85.5" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dgauss_generic</text>
+<!-- proc~g10 -->
+<g id="call~~graph~~CallGraph_node3" class="node">
+<title>proc~g10</title>
+<g id="a_call~~graph~~CallGraph_node3"><a xlink:href=".././proc/g10.html" xlink:title="g10">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="112.5,-108 58.5,-108 58.5,-84 112.5,-84 112.5,-108"/>
+<text text-anchor="middle" x="85.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">g10</text>
 </a>
 </g>
 </g>
 <!-- proc~initialize_integration_class_4d -->
-<g id="call~~graph~~CallGraph_node9" class="node">
+<g id="call~~graph~~CallGraph_node4" class="node">
 <title>proc~initialize_integration_class_4d</title>
-<g id="a_call~~graph~~CallGraph_node9"><a xlink:href=".././proc/initialize_integration_class_4d.html" xlink:title="initialize_integration_class_4d">
-<polygon fill="#d9534f" stroke="#d9534f" points="171,-360 0,-360 0,-336 171,-336 171,-360"/>
-<text text-anchor="middle" x="85.5" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_integration_class_4d</text>
+<g id="a_call~~graph~~CallGraph_node4"><a xlink:href=".././proc/initialize_integration_class_4d.html" xlink:title="initialize_integration_class_4d">
+<polygon fill="#d9534f" stroke="#d9534f" points="171,-150 0,-150 0,-126 171,-126 171,-150"/>
+<text text-anchor="middle" x="85.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_integration_class_4d</text>
 </a>
 </g>
 </g>
-<!-- proc~g8 -->
-<g id="call~~graph~~CallGraph_node10" class="node">
-<title>proc~g8</title>
-<g id="a_call~~graph~~CallGraph_node10"><a xlink:href=".././proc/g8.html" xlink:title="g8">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="112.5,-402 58.5,-402 58.5,-378 112.5,-378 112.5,-402"/>
-<text text-anchor="middle" x="85.5" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">g8</text>
-</a>
-</g>
-</g>
-<!-- proc~initialize_integration_class_6d -->
-<g id="call~~graph~~CallGraph_node11" class="node">
-<title>proc~initialize_integration_class_6d</title>
-<g id="a_call~~graph~~CallGraph_node11"><a xlink:href=".././proc/initialize_integration_class_6d.html" xlink:title="initialize_integration_class_6d">
-<polygon fill="#d9534f" stroke="#d9534f" points="171,-444 0,-444 0,-420 171,-420 171,-444"/>
-<text text-anchor="middle" x="85.5" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_integration_class_6d</text>
-</a>
-</g>
-</g>
-<!-- proc~integrate_4d -->
-<g id="call~~graph~~CallGraph_node12" class="node">
-<title>proc~integrate_4d</title>
-<g id="a_call~~graph~~CallGraph_node12"><a xlink:href=".././proc/integrate_4d.html" xlink:title="integrate_4d">
-<polygon fill="#d9534f" stroke="#d9534f" points="125.5,-486 45.5,-486 45.5,-462 125.5,-462 125.5,-486"/>
-<text text-anchor="middle" x="85.5" y="-471.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">integrate_4d</text>
-</a>
-</g>
-</g>
-<!-- proc~integrate_1d -->
-<g id="call~~graph~~CallGraph_node13" class="node">
-<title>proc~integrate_1d</title>
-<g id="a_call~~graph~~CallGraph_node13"><a xlink:href=".././proc/integrate_1d.html" xlink:title="integrate_1d">
-<polygon fill="#d9534f" stroke="#d9534f" points="125.5,-528 45.5,-528 45.5,-504 125.5,-504 125.5,-528"/>
-<text text-anchor="middle" x="85.5" y="-513.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">integrate_1d</text>
+<!-- proc~integrate_2d -->
+<g id="call~~graph~~CallGraph_node5" class="node">
+<title>proc~integrate_2d</title>
+<g id="a_call~~graph~~CallGraph_node5"><a xlink:href=".././proc/integrate_2d.html" xlink:title="integrate_2d">
+<polygon fill="#d9534f" stroke="#d9534f" points="125.5,-192 45.5,-192 45.5,-168 125.5,-168 125.5,-192"/>
+<text text-anchor="middle" x="85.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">integrate_2d</text>
 </a>
 </g>
 </g>
 <!-- proc~g12 -->
-<g id="call~~graph~~CallGraph_node14" class="node">
+<g id="call~~graph~~CallGraph_node6" class="node">
 <title>proc~g12</title>
-<g id="a_call~~graph~~CallGraph_node14"><a xlink:href=".././proc/g12.html" xlink:title="g12">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="112.5,-570 58.5,-570 58.5,-546 112.5,-546 112.5,-570"/>
-<text text-anchor="middle" x="85.5" y="-555.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">g12</text>
+<g id="a_call~~graph~~CallGraph_node6"><a xlink:href=".././proc/g12.html" xlink:title="g12">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="112.5,-234 58.5,-234 58.5,-210 112.5,-210 112.5,-234"/>
+<text text-anchor="middle" x="85.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">g12</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_integration_class_5d -->
+<g id="call~~graph~~CallGraph_node7" class="node">
+<title>proc~initialize_integration_class_5d</title>
+<g id="a_call~~graph~~CallGraph_node7"><a xlink:href=".././proc/initialize_integration_class_5d.html" xlink:title="initialize_integration_class_5d">
+<polygon fill="#d9534f" stroke="#d9534f" points="171,-276 0,-276 0,-252 171,-252 171,-276"/>
+<text text-anchor="middle" x="85.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_integration_class_5d</text>
+</a>
+</g>
+</g>
+<!-- proc~integrate_6d -->
+<g id="call~~graph~~CallGraph_node8" class="node">
+<title>proc~integrate_6d</title>
+<g id="a_call~~graph~~CallGraph_node8"><a xlink:href=".././proc/integrate_6d.html" xlink:title="integrate_6d">
+<polygon fill="#d9534f" stroke="#d9534f" points="125.5,-318 45.5,-318 45.5,-294 125.5,-294 125.5,-318"/>
+<text text-anchor="middle" x="85.5" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">integrate_6d</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_integration_class_6d -->
+<g id="call~~graph~~CallGraph_node9" class="node">
+<title>proc~initialize_integration_class_6d</title>
+<g id="a_call~~graph~~CallGraph_node9"><a xlink:href=".././proc/initialize_integration_class_6d.html" xlink:title="initialize_integration_class_6d">
+<polygon fill="#d9534f" stroke="#d9534f" points="171,-360 0,-360 0,-336 171,-336 171,-360"/>
+<text text-anchor="middle" x="85.5" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_integration_class_6d</text>
+</a>
+</g>
+</g>
+<!-- proc~g6 -->
+<g id="call~~graph~~CallGraph_node10" class="node">
+<title>proc~g6</title>
+<g id="a_call~~graph~~CallGraph_node10"><a xlink:href=".././proc/g6.html" xlink:title="g6">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="112.5,-402 58.5,-402 58.5,-378 112.5,-378 112.5,-402"/>
+<text text-anchor="middle" x="85.5" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">g6</text>
+</a>
+</g>
+</g>
+<!-- proc~g8 -->
+<g id="call~~graph~~CallGraph_node11" class="node">
+<title>proc~g8</title>
+<g id="a_call~~graph~~CallGraph_node11"><a xlink:href=".././proc/g8.html" xlink:title="g8">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="112.5,-444 58.5,-444 58.5,-420 112.5,-420 112.5,-444"/>
+<text text-anchor="middle" x="85.5" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">g8</text>
+</a>
+</g>
+</g>
+<!-- proc~integrate_5d -->
+<g id="call~~graph~~CallGraph_node12" class="node">
+<title>proc~integrate_5d</title>
+<g id="a_call~~graph~~CallGraph_node12"><a xlink:href=".././proc/integrate_5d.html" xlink:title="integrate_5d">
+<polygon fill="#d9534f" stroke="#d9534f" points="125.5,-486 45.5,-486 45.5,-462 125.5,-462 125.5,-486"/>
+<text text-anchor="middle" x="85.5" y="-471.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">integrate_5d</text>
+</a>
+</g>
+</g>
+<!-- proc~g14 -->
+<g id="call~~graph~~CallGraph_node13" class="node">
+<title>proc~g14</title>
+<g id="a_call~~graph~~CallGraph_node13"><a xlink:href=".././proc/g14.html" xlink:title="g14">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="112.5,-528 58.5,-528 58.5,-504 112.5,-504 112.5,-528"/>
+<text text-anchor="middle" x="85.5" y="-513.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">g14</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_integration_class -->
+<g id="call~~graph~~CallGraph_node14" class="node">
+<title>proc~initialize_integration_class</title>
+<g id="a_call~~graph~~CallGraph_node14"><a xlink:href=".././proc/initialize_integration_class.html" xlink:title="initialize_integration_class">
+<polygon fill="#d9534f" stroke="#d9534f" points="161.5,-570 9.5,-570 9.5,-546 161.5,-546 161.5,-570"/>
+<text text-anchor="middle" x="85.5" y="-555.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_integration_class</text>
 </a>
 </g>
 </g>
@@ -317,30 +259,30 @@ Must be called before integration is performed.</p></td></tr>
 </a>
 </g>
 </g>
-<!-- proc~integrate_2d -->
+<!-- proc~integrate_1d -->
 <g id="call~~graph~~CallGraph_node16" class="node">
-<title>proc~integrate_2d</title>
-<g id="a_call~~graph~~CallGraph_node16"><a xlink:href=".././proc/integrate_2d.html" xlink:title="integrate_2d">
+<title>proc~integrate_1d</title>
+<g id="a_call~~graph~~CallGraph_node16"><a xlink:href=".././proc/integrate_1d.html" xlink:title="integrate_1d">
 <polygon fill="#d9534f" stroke="#d9534f" points="125.5,-654 45.5,-654 45.5,-630 125.5,-630 125.5,-654"/>
-<text text-anchor="middle" x="85.5" y="-639.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">integrate_2d</text>
+<text text-anchor="middle" x="85.5" y="-639.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">integrate_1d</text>
 </a>
 </g>
 </g>
-<!-- proc~g6 -->
+<!-- proc~integrate_4d -->
 <g id="call~~graph~~CallGraph_node17" class="node">
-<title>proc~g6</title>
-<g id="a_call~~graph~~CallGraph_node17"><a xlink:href=".././proc/g6.html" xlink:title="g6">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="112.5,-696 58.5,-696 58.5,-672 112.5,-672 112.5,-696"/>
-<text text-anchor="middle" x="85.5" y="-681.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">g6</text>
+<title>proc~integrate_4d</title>
+<g id="a_call~~graph~~CallGraph_node17"><a xlink:href=".././proc/integrate_4d.html" xlink:title="integrate_4d">
+<polygon fill="#d9534f" stroke="#d9534f" points="125.5,-696 45.5,-696 45.5,-672 125.5,-672 125.5,-696"/>
+<text text-anchor="middle" x="85.5" y="-681.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">integrate_4d</text>
 </a>
 </g>
 </g>
-<!-- proc~g14 -->
+<!-- proc~initialize_integration_class_2d -->
 <g id="call~~graph~~CallGraph_node18" class="node">
-<title>proc~g14</title>
-<g id="a_call~~graph~~CallGraph_node18"><a xlink:href=".././proc/g14.html" xlink:title="g14">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="112.5,-738 58.5,-738 58.5,-714 112.5,-714 112.5,-738"/>
-<text text-anchor="middle" x="85.5" y="-723.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">g14</text>
+<title>proc~initialize_integration_class_2d</title>
+<g id="a_call~~graph~~CallGraph_node18"><a xlink:href=".././proc/initialize_integration_class_2d.html" xlink:title="initialize_integration_class_2d">
+<polygon fill="#d9534f" stroke="#d9534f" points="171,-738 0,-738 0,-714 171,-714 171,-738"/>
+<text text-anchor="middle" x="85.5" y="-723.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_integration_class_2d</text>
 </a>
 </g>
 </g>
@@ -407,21 +349,18 @@ Must be called before integration is performed.</p></td></tr>
     </div></div></div></div>
         </div>
       </div>
-
     <hr>    
     </div> <!-- /container -->
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>quadrature-fortran was developed by Jacob Williams<br>&copy; 2021 
-                                          </p>
+        <div class="col-xs-6 col-md-6"><p>quadrature-fortran was developed by Jacob Williams<br>&copy; 2022 
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -449,14 +388,11 @@ Must be called before integration is performed.</p></td></tr>
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     <script src="../tipuesearch/tipuesearch_content.js"></script>
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
-    
     
   </body>
 </html>

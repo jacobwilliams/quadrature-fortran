@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="Adaptive Gaussian Quadrature with Modern Fortran">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,10 +14,7 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
     <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -48,58 +43,27 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/quadrature_module.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-        
             <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-               
-            <li><a href="../lists/types.html">Derived Types</a></li>
-        
-               
-        
-        
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+       
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/quadrature_module.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-
-
-
-
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
           </ul>
-        
         <form action="../search.html" class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
@@ -108,51 +72,29 @@
         <button type="submit" class="btn btn-default">Submit</button>
 -->
         </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>g6
       <small>Function</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 1.8% of total for procedures.">10 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/quadrature_module.f90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/quadrature_module.f90.html'>quadrature_module.f90</a></li>
-    
      <li><a href='../module/quadrature_module.html'>quadrature_module</a></li>
-    
-  
      <li class="active">g6</li>
   </ol>
 </div>
@@ -168,166 +110,63 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
     <a class="list-group-item" href="../proc/g6.html#src">g6</a>
   </div>
 </div>
-
-
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-private function g6(me, x, h) result(f)
+    <h2>private function g6(me, x, h) result(f)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>6-point method.</p>
 <h3>See also</h3>
 <ul>
 <li>Coefficients from:
     http://processingjs.nihongoresources.com/bezierinfo/legendre-gauss-values.php</li>
 </ul>
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-me~8"></span>class(<a href='../type/integration_class_1d.html'>integration_class_1d</a>),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>me</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-x~8"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>x</strong></td><td></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-h~2"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>h</strong></td><td></td>
-  
 </tr>
-
 </tbody>
 </table>
 
+   <h3>Return Value <small><span class="anchor" id="variable-f~8"></span>real(kind=wp)</small></h3>
     
-    
-    
-    
-    
-    
-    
-   <h3>Return Value <small><span class="anchor" id="variable-f~8"></span>real(kind=wp)
-  </small></h3>
-    
-    
-    
-    
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
@@ -335,114 +174,99 @@ private function g6(me, x, h) result(f)
   </div>
 </div>
 
-
-
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
     
     
 
     
     
-    
-    
-    
 
 
-    
-    
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>    <span class="k">function </span><span class="n">g6</span><span class="p">(</span><span class="n">me</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">function </span><span class="n">g6</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="w"></span>
 
-    <span class="k">implicit none</span>
+<span class="w">    </span><span class="k">implicit none</span>
 
-<span class="k">    class</span><span class="p">(</span><span class="n">integration_class_1d</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">me</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">x</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">h</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">f</span>
+<span class="k">    class</span><span class="p">(</span><span class="n">integration_class_1d</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">h</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span><span class="w"></span>
 
-    <span class="c">!&gt; abscissae:</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span>  <span class="n">a</span> <span class="o">=</span> <span class="p">[</span>   <span class="mf">0.6612093864662645136613995950199053470064485643</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">951700708145267058521834966071431009442864037464</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">614564298883716392751466795573467722253804381723</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">198010093367423918538864300079016299442625145884</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">9024557188219703863032236201173523213570221879361</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">8906974301231555871064213101639896769013566165126</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">1150514997832_wp</span><span class="p">,&amp;</span>
-                                                <span class="p">&amp;</span><span class="mf">0.2386191860831969086305017216807119354186106301</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">400213501813951645742749342756398422492244272573</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">491316090722230970106872029554530350772051352628</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">872175189982985139866216812636229030578298770859</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">440976999298617585739469216136216592222334626416</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">400139367778945327871453246721518889993399000945</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">408150514997832_wp</span><span class="p">,&amp;</span>
-                                                <span class="p">&amp;</span><span class="mf">0.9324695142031520278123015544939946091347657377</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">122898248725496165266135008442001962762887399219</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">259850478636797265728341065879713795116384041921</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">786180750210169211578452038930846310372961174632</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">524612619760497437974074226320896716211721783852</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">305051047442772222093863676553669179038880252326</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">771150514997832_wp</span> <span class="p">]</span>
-    <span class="c">!&gt; weights:</span>
-    <span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">parameter</span> <span class="kd">::</span>  <span class="n">w</span> <span class="o">=</span> <span class="p">[</span>   <span class="mf">0.36076157304813860756983351383771611166152189274</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">674548228973924023714003783726171832096220198881</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">934794311720914037079858987989027836432107077678</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">721140858189221145027225257577711260007323688285</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">916316028951118005174081368554707448247248610118</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">325993144981721640242558677752676819993095031068</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">73150514997832_wp</span><span class="p">,&amp;</span>
-                                                <span class="mf">0.46791393457269104738987034398955099481165560576</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">921053531162531996391420162039812703111009258479</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">198230476626878975479710092836255417350295459356</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">355927338665933648259263825590180302812735635025</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">362417046193182590009975698709590053347408007463</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">437682443180817320636917410341626176534629278889</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">17150514997832_wp</span><span class="p">,&amp;</span>
-                                                <span class="mf">0.17132449237917034504029614217273289352682250148</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">404398239863543979894576054234015464792770542638</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">866975211652206987440430919174716746217597462964</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">922931803144845206713510916832108437179940676688</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">721266924855699404815942932735702498405343382418</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">236324411837461039120523911904421970357029774978</span><span class="p">&amp;</span>
-                                                <span class="p">&amp;</span><span class="mi">12150514997832_wp</span> <span class="p">]</span>
+<span class="w">    </span><span class="c">!&gt; abscissae:</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w">   </span><span class="mf">0.6612093864662645136613995950199053470064485643</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">951700708145267058521834966071431009442864037464</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">614564298883716392751466795573467722253804381723</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">198010093367423918538864300079016299442625145884</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">9024557188219703863032236201173523213570221879361</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">8906974301231555871064213101639896769013566165126</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">1150514997832_wp</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mf">0.2386191860831969086305017216807119354186106301</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">400213501813951645742749342756398422492244272573</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">491316090722230970106872029554530350772051352628</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">872175189982985139866216812636229030578298770859</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">440976999298617585739469216136216592222334626416</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">400139367778945327871453246721518889993399000945</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">408150514997832_wp</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mf">0.9324695142031520278123015544939946091347657377</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">122898248725496165266135008442001962762887399219</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">259850478636797265728341065879713795116384041921</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">786180750210169211578452038930846310372961174632</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">524612619760497437974074226320896716211721783852</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">305051047442772222093863676553669179038880252326</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">771150514997832_wp</span><span class="w"> </span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="c">!&gt; weights:</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w">  </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w">   </span><span class="mf">0.36076157304813860756983351383771611166152189274</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">674548228973924023714003783726171832096220198881</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">934794311720914037079858987989027836432107077678</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">721140858189221145027225257577711260007323688285</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">916316028951118005174081368554707448247248610118</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">325993144981721640242558677752676819993095031068</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">73150514997832_wp</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="mf">0.46791393457269104738987034398955099481165560576</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">921053531162531996391420162039812703111009258479</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">198230476626878975479710092836255417350295459356</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">355927338665933648259263825590180302812735635025</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">362417046193182590009975698709590053347408007463</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">437682443180817320636917410341626176534629278889</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">17150514997832_wp</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="mf">0.17132449237917034504029614217273289352682250148</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">404398239863543979894576054234015464792770542638</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">866975211652206987440430919174716746217597462964</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">922931803144845206713510916832108437179940676688</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">721266924855699404815942932735702498405343382418</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">236324411837461039120523911904421970357029774978</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                </span><span class="p">&amp;</span><span class="mi">12150514997832_wp</span><span class="w"> </span><span class="p">]</span><span class="w"></span>
 
-    <span class="n">f</span> <span class="o">=</span> <span class="n">h</span> <span class="o">*</span> <span class="p">(</span> <span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span> <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="o">+</span> <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
-              <span class="n">w</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span> <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="o">+</span> <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
-              <span class="n">w</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="p">(</span> <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="o">+</span> <span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span>
+<span class="w">    </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">              </span><span class="n">w</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">              </span><span class="n">w</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">a</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 
-    <span class="k">end function </span><span class="n">g6</span>
+<span class="w">    </span><span class="k">end function </span><span class="n">g6</span><span class="w"></span>
 </pre></div>
 
     </section>
     <br>
     
-    
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>quadrature-fortran was developed by Jacob Williams<br>&copy; 2021 
-                                          </p>
+        <div class="col-xs-6 col-md-6"><p>quadrature-fortran was developed by Jacob Williams<br>&copy; 2022 
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -470,14 +294,11 @@ private function g6(me, x, h) result(f)
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     <script src="../tipuesearch/tipuesearch_content.js"></script>
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
-    
     
   </body>
 </html>

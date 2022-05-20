@@ -3,6 +3,12 @@
 
 Adaptive Gaussian Quadrature with Modern Fortran
 
+### Status
+[![GitHub release](https://img.shields.io/github/release/jacobwilliams/quadrature-fortran.svg)](https://github.com/jacobwilliams/quadrature-fortran/releases/latest)
+[![CI Status](https://github.com/jacobwilliams/quadrature-fortran/actions/workflows/CI.yml/badge.svg)](https://github.com/jacobwilliams/quadrature-fortran/actions)
+[![codecov](https://codecov.io/gh/jacobwilliams/quadrature-fortran/branch/master/graph/badge.svg)](https://codecov.io/gh/jacobwilliams/quadrature-fortran)
+[![last-commit](https://img.shields.io/github/last-commit/jacobwilliams/quadrature-fortran)](https://github.com/jacobwilliams/quadrature-fortran/commits/master)
+
 ### Brief description
 
 An object-oriented modern Fortran library to integrate functions using adaptive Gaussian quadrature. There are five selectable methods to use:

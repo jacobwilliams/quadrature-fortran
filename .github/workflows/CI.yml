@@ -52,7 +52,7 @@ jobs:
     # - name: Compile
     #   run: fpm build --profile release
 
-    - name: Run app
+    - name: Run tests
       run: fpm test --profile debug --flag -coverage
 
     - name: Create coverage report

@@ -207,11 +207,28 @@
         ru = 1.0_wp
         call run_5d_test()
 
-        !============================================
-        ! 6d integral tests
-        !============================================
+        if (i<=2) then  ! only test 2 of these since they take a while and ifunc will overflow
 
+            !============================================
+            ! 6d integral tests
+            !============================================
 
+            int_6d%ifunc = 1
+            xl = 0.0_wp
+            xu = 1.0_wp
+            yl = 0.0_wp
+            yu = 1.0_wp
+            zl = 0.0_wp
+            zu = 1.0_wp
+            ql = 0.0_wp
+            qu = 1.0_wp
+            rl = 0.0_wp
+            ru = 1.0_wp
+            sl = 0.0_wp
+            su = 1.0_wp
+            call run_6d_test()
+
+        end if
 
     end do
 
@@ -238,7 +255,7 @@
         answer = test_integral(my_int,a,b)
 
         !print results:
-        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E15.5,A,I5,A,E15.5,A,I9,A,E15.5)') &
+        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E15.5,A,I5,A,E15.5,A,I11,A,E15.5)') &
                      itest, ',', &
                      '1D',',',&
                      trim(set_of_quadrature_methods(i)%name), ',', &
@@ -377,7 +394,7 @@
         answer = test_2d_integral(doub,xl,xu,yl,yu)
 
         !print results:
-        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E15.5,A,I5,A,E15.5,A,I9,A,E15.5)') &
+        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E15.5,A,I5,A,E15.5,A,I11,A,E15.5)') &
                      itest, ',', &
                      '2D',',',&
                      trim(set_of_quadrature_methods(i)%name), ',', &
@@ -489,7 +506,7 @@
         answer = test_3d_integral(trip,xl,xu,yl,yu,zl,zu)
 
         !print results:
-        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E15.5,A,I5,A,E15.5,A,I9,A,E15.5)') &
+        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E15.5,A,I5,A,E15.5,A,I11,A,E15.5)') &
                      itest, ',', &
                      '3D',',',&
                      trim(set_of_quadrature_methods(i)%name), ',', &
@@ -598,7 +615,7 @@
         answer = test_4d_integral(int_4d,xl,xu,yl,yu,zl,zu,ql,qu)
 
         !print results:
-        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E15.5,A,I5,A,E15.5,A,I9,A,E15.5)') &
+        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E15.5,A,I5,A,E15.5,A,I11,A,E15.5)') &
                      itest, ',', &
                      '4D',',',&
                      trim(set_of_quadrature_methods(i)%name), ',', &
@@ -686,7 +703,6 @@
         end function test_4d_integral
     !*************************************************************
 
-
     !*************************************************************
         subroutine run_5d_test()
 
@@ -709,7 +725,7 @@
         answer = test_5d_integral(int_5d,xl,xu,yl,yu,zl,zu,ql,qu,rl,ru)
 
         !print results:
-        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E15.5,A,I5,A,E15.5,A,I9,A,E15.5)') &
+        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E15.5,A,I5,A,E15.5,A,I11,A,E15.5)') &
                      itest, ',', &
                      '5D',',',&
                      trim(set_of_quadrature_methods(i)%name), ',', &
@@ -800,6 +816,122 @@
         end function test_5d_integral
     !*************************************************************
 
+
+    !*************************************************************
+        subroutine run_6d_test()
+
+        implicit none
+
+        itest = int_6d%ifunc
+
+        !set up the class
+        call int_6d%initialize(fxyzqrs=test_6d_func,xl=xl,xu=xu,yl=yl,yu=yu,zl=zl,zu=zu,ql=ql,qu=qu,rl=rl,ru=ru,sl=sl,su=su,&
+                               tolx=tol,toly=tol,tolz=tol,tolq=tol,tolr=tol,tols=tol,&
+                               methodx=meth,methody=meth,methodz=meth,methodq=meth,methodr=meth,methods=meth)
+
+        !reset number of function evaluations:
+        int_6d%n_evals = 0
+
+        !integrate the function:
+        call int_6d%integrate(ans, ierr, err)
+
+        !get the true answer:
+        answer = test_6d_integral(int_6d,xl,xu,yl,yu,zl,zu,ql,qu,rl,ru,sl,su)
+
+        !print results:
+        write(*,'(1p,I3,A,A,A,A,A,E15.5,A,E15.5,A,I5,A,E15.5,A,I11,A,E15.5)') &
+                     itest, ',', &
+                     '6D',',',&
+                     trim(set_of_quadrature_methods(i)%name), ',', &
+                     tol, ',', &
+                     ans, ',', &
+                     ierr, ',', &
+                     err, ',', &
+                     int_6d%n_evals, ',', &
+                     answer - ans
+
+        if (abs(answer-ans)>100*tol) error stop 'TEST FAILED'
+
+        end subroutine run_6d_test
+    !*************************************************************
+
+    !*************************************************************
+        function test_6d_func(me,x,y,z,q,r,s) result(f)
+
+        !! The function is f(x,y,z,q,r,s)
+
+        implicit none
+
+        class(integration_class_6d),intent(inout)   :: me
+        real(wp), intent(in)  :: x
+        real(wp), intent(in)  :: y
+        real(wp), intent(in)  :: z
+        real(wp), intent(in)  :: q
+        real(wp), intent(in)  :: r
+        real(wp), intent(in)  :: s
+        real(wp)              :: f
+
+        select type (me)
+        class is (my_6)
+
+            select case(me%ifunc)
+            case(1)
+
+                f = 1.0_wp
+
+            case default
+                error stop 'Error in test_6d_func: invalid value of ifunc'
+            end select
+
+            me%n_evals = me%n_evals + 1
+
+        class default
+            error stop 'Error in test_6d_func: invalid class.'
+        end select
+
+        end function test_6d_func
+    !*************************************************************
+
+    !*************************************************************
+        function test_6d_integral(me,xl,xu,yl,yu,zl,zu,ql,qu,rl,ru,sl,su) result(f)
+
+        !! The 6D integral of f(x,y,z,q,r,s)
+
+        implicit none
+
+        class(integration_class_6d),intent(inout)  :: me
+        real(wp), intent(in)  :: xl
+        real(wp), intent(in)  :: xu
+        real(wp), intent(in)  :: yl
+        real(wp), intent(in)  :: yu
+        real(wp), intent(in)  :: zl
+        real(wp), intent(in)  :: zu
+        real(wp), intent(in)  :: ql
+        real(wp), intent(in)  :: qu
+        real(wp), intent(in)  :: rl
+        real(wp), intent(in)  :: ru
+        real(wp), intent(in)  :: sl
+        real(wp), intent(in)  :: su
+        real(wp)              :: f
+
+        select type (me)
+        class is (my_6)
+
+            select case(me%ifunc)
+            case(1)
+
+                f = 1.0_wp
+
+            case default
+                error stop 'Error in test_6d_integral: invalid value of ifunc'
+            end select
+
+        class default
+            error stop 'Error in test_6d_integral: invalid class.'
+        end select
+
+        end function test_6d_integral
+    !*************************************************************
 
 !************************************************************************************
     end program main

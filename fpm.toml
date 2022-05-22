@@ -1,6 +1,6 @@
 name = "quadrature-fortran"
 author = "Jacob Williams"
-copyright  = "Copyright (c) 2018-2021, Jacob Williams"
+copyright  = "Copyright (c) 2018-2022, Jacob Williams"
 license = "BSD-3"
 description = "Adaptive Gaussian Quadrature with Modern Fortran"
 homepage = "https://github.com/jacobwilliams/quadrature-fortran"
@@ -9,15 +9,10 @@ keywords = ["quadrature", "numerical integration"]
 [build]
 auto-executables = false
 auto-examples = false
-auto-tests = false
+auto-tests = true
 
 [library]
 source-dir = "src"
 
 [install]
 library = true
-
-[[test]]
-name = "test"
-source-dir = "tests"
-main = "test.f90"

@@ -38,17 +38,37 @@ The core code is based on the SLATEC routine [DGAUS8](http://www.netlib.org/slat
 
 ### Compiling
 
-A [Fortran Package Manager](https://github.com/fortran-lang/fpm) manifest file is included, so that the library and tests cases can be compiled with FPM. For example:
+A [Fortran Package Manager](https://github.com/fortran-lang/fpm) manifest file is included, so that the library and test cases can be compiled with FPM. For example:
 
 ```
 fpm build --profile release
 fpm test --profile release
 ```
 
+By default, the library is built with double precision (`real64`) real values. Explicitly specifying the real kind can be done using the following preprocessor flags:
+
+Preprocessor flag | Kind  | Number of bytes
+----------------- | ----- | ---------------
+`REAL32`  | `real(kind=real32)`  | 4
+`REAL64`  | `real(kind=real64)`  | 8
+`REAL128` | `real(kind=real128)` | 16
+
+For example, to build a single precision version of the library, use:
+
+```
+fpm build --profile release --flag "-DREAL32"
+```
+
 To use `quadrature-fortran` within your fpm project, add the following to your `fpm.toml` file:
 ```toml
 [dependencies]
 quadrature-fortran = { git="https://github.com/jacobwilliams/quadrature-fortran.git" }
+```
+
+or, to use a specific version:
+```toml
+[dependencies]
+quadrature-fortran = { git="https://github.com/jacobwilliams/quadrature-fortran.git", tag = "1.0.0" }
 ```
 
 ### Documentation
@@ -58,6 +78,10 @@ The API documentation for the current ```master``` branch can be found [here](ht
 ### License
 
 The quadrature-fortran source code and related files and documentation are distributed under a permissive free software [license](https://github.com/jacobwilliams/quadrature-fortran/blob/master/LICENSE) (BSD-style).
+
+### See also
+
+ * [quadpack](https://github.com/jacobwilliams/quadpack) -- Modern Fortran QUADPACK Library for 1D numerical quadrature
 
 ### Keywords
 

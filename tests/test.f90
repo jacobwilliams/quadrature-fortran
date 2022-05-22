@@ -14,8 +14,8 @@
     real(wp),parameter :: two       = 2.0_wp
     real(wp),parameter :: three     = 3.0_wp
     real(wp),parameter :: pi        = acos(-one)
-    real(wp),parameter :: tol       = 1.0e-12_wp  !! error tolerance
-    !real(wp),parameter :: tol       = 100*epsilon(one)
+    real(wp),parameter :: tol       = 100000*epsilon(one) !! error tolerance
+    real(wp),parameter :: abs_error_tol_for_check = 100*tol !! tol for pass/fail check
 
     type,extends(integration_class_1d) :: sin_type
         integer  :: ifunc   = 0     !! which function to use
@@ -266,7 +266,7 @@
                      my_int%n_evals, ',', &
                      answer - ans
 
-        if (abs(answer-ans)>100*tol) error stop 'TEST FAILED'
+        if (abs(answer-ans)>abs_error_tol_for_check) error stop 'TEST FAILED'
 
         end subroutine run_test
     !*************************************************************
@@ -405,7 +405,7 @@
                      doub%n_evals, ',', &
                      answer - ans
 
-        if (abs(answer-ans)>100*tol) error stop 'TEST FAILED'
+        if (abs(answer-ans)>abs_error_tol_for_check) error stop 'TEST FAILED'
 
         end subroutine run_2d_test
     !*************************************************************
@@ -517,7 +517,7 @@
                      doub%n_evals, ',', &
                      answer - ans
 
-        if (abs(answer-ans)>100*tol) error stop 'TEST FAILED'
+        if (abs(answer-ans)>abs_error_tol_for_check) error stop 'TEST FAILED'
 
         end subroutine run_3d_test
     !*************************************************************
@@ -626,7 +626,7 @@
                      int_4d%n_evals, ',', &
                      answer - ans
 
-        if (abs(answer-ans)>100*tol) error stop 'TEST FAILED'
+        if (abs(answer-ans)>abs_error_tol_for_check) error stop 'TEST FAILED'
 
         end subroutine run_4d_test
     !*************************************************************
@@ -736,7 +736,7 @@
                      int_5d%n_evals, ',', &
                      answer - ans
 
-        if (abs(answer-ans)>100*tol) error stop 'TEST FAILED'
+        if (abs(answer-ans)>abs_error_tol_for_check) error stop 'TEST FAILED'
 
         end subroutine run_5d_test
     !*************************************************************
@@ -850,7 +850,7 @@
                      int_6d%n_evals, ',', &
                      answer - ans
 
-        if (abs(answer-ans)>100*tol) error stop 'TEST FAILED'
+        if (abs(answer-ans)>abs_error_tol_for_check) error stop 'TEST FAILED'
 
         end subroutine run_6d_test
     !*************************************************************

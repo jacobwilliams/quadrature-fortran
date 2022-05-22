@@ -88,12 +88,12 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">709 statements</a>
+    title="100.0% of total for modules and submodules.">710 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/quadrature_module.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/quadrature_module.F90"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/quadrature_module.f90.html'>quadrature_module.f90</a></li>
+     <li><a href='../sourcefile/quadrature_module.f90.html'>quadrature_module.F90</a></li>
      <li class="active">quadrature_module</li>
   </ol>
 </div>
@@ -117,6 +117,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../module/quadrature_module.html#variable-quadrature_wp">quadrature_wp</a>
+      <a class="list-group-item" href="../module/quadrature_module.html#variable-wp">wp</a>
       <a class="list-group-item" href="../module/quadrature_module.html#variable-zero">zero</a>
       <a class="list-group-item" href="../module/quadrature_module.html#variable-one_half">one_half</a>
       <a class="list-group-item" href="../module/quadrature_module.html#variable-one">one</a>
@@ -204,6 +205,10 @@
 <ul>
 <li>Jacob Williams</li>
 </ul>
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>The default real kind (<code>wp</code>) can be
+      changed using optional preprocessor flags.
+      This library was built with real kind:
+      <code>real(kind=real64)</code> [8 bytes]</p></div>
 <br>        <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Uses</h3>
@@ -322,6 +327,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../module/quadrature_module.html#variable-quadrature_wp">quadrature_wp</a>
+      <a class="list-group-item" href="../module/quadrature_module.html#variable-wp">wp</a>
       <a class="list-group-item" href="../module/quadrature_module.html#variable-zero">zero</a>
       <a class="list-group-item" href="../module/quadrature_module.html#variable-one_half">one_half</a>
       <a class="list-group-item" href="../module/quadrature_module.html#variable-one">one</a>
@@ -411,7 +417,12 @@
 <tr>
   <td><span class="anchor" id="variable-quadrature_wp"></span>integer,</td>
 <td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>quadrature_wp</strong></td><td> =</td><td>wp</td><td><p>export working precision</p></td>
+  <td><strong>quadrature_wp</strong></td><td> =</td><td>real64</td><td><p>real kind used by this module [8 bytes]</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-wp"></span>integer,</td>
+<td>private,</td>  <td>parameter</td><td>::</td>
+  <td><strong>wp</strong></td><td> =</td><td>quadrature_wp</td><td><p>local copy of <code>fmin_rk</code> with a shorter name</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-zero"></span>real(kind=wp),</td>

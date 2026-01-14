@@ -52,11 +52,11 @@
         character(len=100) :: name     = ''
     end type quadrature_method
 
-    type(quadrature_method),parameter :: quad_gauss_6  = quadrature_method(6,  'Adaptive 6-point Legendre-Gauss')
-    type(quadrature_method),parameter :: quad_gauss_8  = quadrature_method(8,  'Adaptive 8-point Legendre-Gauss')
-    type(quadrature_method),parameter :: quad_gauss_10 = quadrature_method(10, 'Adaptive 10-point Legendre-Gauss')
-    type(quadrature_method),parameter :: quad_gauss_12 = quadrature_method(12, 'Adaptive 12-point Legendre-Gauss')
-    type(quadrature_method),parameter :: quad_gauss_14 = quadrature_method(14, 'Adaptive 14-point Legendre-Gauss')
+    type(quadrature_method),parameter,public :: quad_gauss_6  = quadrature_method(6,  'Adaptive 6-point Legendre-Gauss')
+    type(quadrature_method),parameter,public :: quad_gauss_8  = quadrature_method(8,  'Adaptive 8-point Legendre-Gauss')
+    type(quadrature_method),parameter,public :: quad_gauss_10 = quadrature_method(10, 'Adaptive 10-point Legendre-Gauss')
+    type(quadrature_method),parameter,public :: quad_gauss_12 = quadrature_method(12, 'Adaptive 12-point Legendre-Gauss')
+    type(quadrature_method),parameter,public :: quad_gauss_14 = quadrature_method(14, 'Adaptive 14-point Legendre-Gauss')
 
     type(quadrature_method),dimension(5),parameter,public :: set_of_quadrature_methods = &
                                                                  [ quad_gauss_6 ,&
